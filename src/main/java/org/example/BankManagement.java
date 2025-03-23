@@ -15,6 +15,10 @@ public class BankManagement {
             System.out.println("Bank account " + Double.toString(amount) + " already exists");
             return;
         }
+        if (amount <= 0) {
+            System.out.println("Amount must be greater than 0");
+            return;
+        }
         this.bankAccounts.put(accountId, amount);
     }
 
@@ -31,12 +35,24 @@ public class BankManagement {
             System.out.println("Bank account " + Double.toString(amount) + " does not exist");
             return;
         }
+        if (amount <= 0) {
+            System.out.println("Amount must be greater than 0");
+            return;
+        }
         this.bankAccounts.put(accountId, this.bankAccounts.get(accountId) + amount);
     }
 
     void withdraw(int accountId, double amount) {
         if (!bankAccounts.containsKey(accountId)) {
             System.out.println("Bank account " + Double.toString(amount) + " does not exist");
+            return;
+        }
+        if (amount <= 0) {
+            System.out.println("Amount must be greater than 0");
+            return;
+        }
+        if (this.bankAccounts.get(accountId) < amount) {
+            System.out.println("Bank account " + Double.toString(amount) + " does not have enough money");
             return;
         }
         this.bankAccounts.put(accountId, this.bankAccounts.get(accountId) - amount);
