@@ -41,8 +41,6 @@ public class BankAccountDistributor {
         if (amount <= 0) {
             System.out.println("Error: Amount must be greater than zero.");
             return;
-        } else {
-            System.out.println("Amount to be distributed: " + amount);
         }
 
         Map<String, AbstractMap.SimpleEntry<Double, Double>> spendingMap = spendingAccounts.get(accountId);
@@ -60,8 +58,10 @@ public class BankAccountDistributor {
         }
 
         if (totalPercentage > 100 - EPS && totalPercentage < 100 + EPS) {
-            System.out.println("No savings for the amount " + amount);
-            return;
+            System.out.println("No savings for account " + accountId);
+        }
+        else {
+            System.out.println("Remaining money of " + Double.toString((100 - totalPercentage) / 100 * amount) + " added to savings account for account " + accountId);
         }
 
         for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()) {
@@ -78,7 +78,6 @@ public class BankAccountDistributor {
         double currentSavings = savingAccount.get(accountId);
         savingAccount.put(accountId, currentSavings + remainingAmount);
 
-        System.out.println("Remaining money of " + remainingAmount + " added to savings account for account " + accountId);
     }
 
     public static void main(String[] args) {
