@@ -77,10 +77,24 @@ public class BankAccountDistributor {
 
         double currentSavings = savingAccount.get(accountId);
         savingAccount.put(accountId, currentSavings + remainingAmount);
-
     }
 
     public static void main(String[] args) {
+        BankAccountDistributor bankDistributor = new BankAccountDistributor();
 
+        int accountId = 101;
+        bankDistributor.addUser(accountId);
+
+        bankDistributor.addSpendingAccount(accountId, "Main account", 0.0, 40.0);
+        bankDistributor.addSpendingAccount(accountId, "Entertainment", 0.0, 20.0);
+        bankDistributor.addSpendingAccount(accountId, "Groceries", 0.0, 10.0);
+
+        bankDistributor.addMoneyToSavingAccount(accountId, 100.0);
+
+        System.out.println("\nDistributing $1000 to account " + accountId);
+        bankDistributor.distributeMoney(accountId, 1000.0);
+
+        System.out.println("\nDistributing $500 to account " + accountId);
+        bankDistributor.distributeMoney(accountId, 500.0);
     }
 }
