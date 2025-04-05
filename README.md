@@ -22,7 +22,7 @@ Structural testing (sau white-box testing) se concentrează pe analiza internă 
 #### Mutation Testing 
 Mutation testing presupune introducerea intenționată a unor modificări minore (mutanți) în codul sursă pentru a evalua eficacitatea suitei de teste. Scopul este de a determina dacă testele existente pot detecta aceste modificări, evidențiind astfel eventuale lacune în acoperirea testelor.
 
-### 3. Analiza Aplicațiilor Existente (https://github.com/apache/commons-lang)
+### 3. [Analiza Aplicațiilor Existente](https://github.com/apache/commons-lang)
 Un exemplu concret este <b>Apache Commons Lang.</b> Acest proiect open source, parte din Apache Commons, folosește:
 
 * Maven pentru gestionarea dependențelor și automatizarea build-ului,
