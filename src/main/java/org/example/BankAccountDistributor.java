@@ -52,11 +52,6 @@ public class BankAccountDistributor {
             totalPercentage += entryValue.getValue();
         }
 
-        if (totalPercentage > 100 - EPS) {
-            System.out.println("Total spending percentage exceeds 100%");
-            return;
-        }
-
         if (totalPercentage > 100 - EPS && totalPercentage < 100 + EPS) {
             System.out.println("No savings for account " + accountId);
         }
@@ -77,6 +72,22 @@ public class BankAccountDistributor {
 
         double currentSavings = savingAccount.get(accountId);
         savingAccount.put(accountId, currentSavings + remainingAmount);
+    }
+
+    public Map<Integer, Double> getSavingAccountMap() {
+        return savingAccount;
+    }
+
+    public double getSavingsForAccount(int accountId) {
+        return savingAccount.getOrDefault(accountId, 0.0);
+    }
+
+    public Map<Integer, Map<String, AbstractMap.SimpleEntry<Double, Double>>> getSpendingAccounts() {
+        return spendingAccounts;
+    }
+
+    public Map<String, AbstractMap.SimpleEntry<Double, Double>> getSpendingMapForAccount(int accountId) {
+        return spendingAccounts.getOrDefault(accountId, new HashMap<>());
     }
 
     public static void main(String[] args) {
