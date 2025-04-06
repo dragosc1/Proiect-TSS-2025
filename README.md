@@ -74,10 +74,13 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 - **JaCoCo:**  
   Instrument pentru măsurarea acoperirii codului de către teste.  
   [Setup JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/)
+  Run: mvn clean test
 
 - **PIT:**  
   Instrument de mutation testing folosit pentru evaluarea eficienței suitei de teste.  
   [Setup PIT](https://pitest.org/quickstart/)
+  Run: mvn clean test pitest:mutationCoverage
+
 
 
 
