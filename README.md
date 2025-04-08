@@ -70,12 +70,12 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 - **JUnit:**  
   Framework popular pentru scrierea și rularea testelor unitare în Java.  
   [Setup JUnit](https://junit.org/junit5/docs/current/user-guide/)
-  * Run: mvn test
+  * Run: mvn clean test
     
 - **JaCoCo:**  
   Instrument pentru măsurarea acoperirii codului de către teste.  
   [Setup JaCoCo](https://www.jacoco.org/jacoco/trunk/doc/)
-  * Run: mvn clean test
+  * Run: mvn clean verify
 
 - **PIT:**  
   Instrument de mutation testing folosit pentru evaluarea eficienței suitei de teste.  
