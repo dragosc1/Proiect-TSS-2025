@@ -32,7 +32,7 @@ public class BankAccountDistributor {
         savingAccount.put(accountId, savingAccount.get(accountId) + amount);
     }
 
-    public void distributeMoney(int accountId, double amount) {
+    public void distributeMoney(int accountId, double amount, String description) {
         if (!spendingAccounts.containsKey(accountId)) {
             System.out.println("Account " + accountId + " does not exist");
             return;
@@ -43,8 +43,9 @@ public class BankAccountDistributor {
             return;
         }
 
-        Map<String, AbstractMap.SimpleEntry<Double, Double>> spendingMap = spendingAccounts.get(accountId);
+        System.out.println("Distributing $" + amount + " for account " + accountId + " [" + description + "]");
 
+        Map<String, AbstractMap.SimpleEntry<Double, Double>> spendingMap = spendingAccounts.get(accountId);
         double totalPercentage = 0.0;
 
         for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()) {
@@ -103,9 +104,9 @@ public class BankAccountDistributor {
         bankDistributor.addMoneyToSavingAccount(accountId, 100.0);
 
         System.out.println("\nDistributing $1000 to account " + accountId);
-        bankDistributor.distributeMoney(accountId, 1000.0);
+        bankDistributor.distributeMoney(accountId, 1000.0, "Salary");
 
         System.out.println("\nDistributing $500 to account " + accountId);
-        bankDistributor.distributeMoney(accountId, 500.0);
+        bankDistributor.distributeMoney(accountId, 500.0, "Winning a competition");
     }
 }

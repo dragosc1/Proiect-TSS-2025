@@ -20,7 +20,7 @@ public class BankAccountDistributorTest {
 
     @Test
     public void testAccountDoesNotExistMessage() {
-        distributor.distributeMoney(999, 100.0);
+        distributor.distributeMoney(999, 100.0, "Salary");
 
         assertTrue(log.getLog().contains("Account 999 does not exist"));
     }
@@ -42,7 +42,7 @@ public class BankAccountDistributorTest {
 
     @Test
     public void testDistribution() {
-        distributor.distributeMoney(1, 1000.0);
+        distributor.distributeMoney(1, 1000.0, "Salary");
 
         Map<String, AbstractMap.SimpleEntry<Double, Double>> spending = distributor.getSpendingMapForAccount(1);
 
@@ -60,7 +60,7 @@ public class BankAccountDistributorTest {
 
         distributor.addSpendingAccount(3, "A", 0.0, 50.0);
         distributor.addSpendingAccount(3, "B", 0.0, 50.0);
-        distributor.distributeMoney(3, 500.0);
+        distributor.distributeMoney(3, 500.0, "Salary");
 
         Map<String, AbstractMap.SimpleEntry<Double, Double>> spending = distributor.getSpendingMapForAccount(3);
 
@@ -71,7 +71,7 @@ public class BankAccountDistributorTest {
 
     @Test
     public void testNegativeAmountIgnored() {
-        distributor.distributeMoney(1, -100.0);
+        distributor.distributeMoney(1, -100.0, "Salary");
         assertEquals(100.0, distributor.getSavingsForAccount(1), 0.001);
     }
 }
