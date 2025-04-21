@@ -18,6 +18,26 @@ public class BankAccountDistributorTest {
     @Rule
     public final StandardOutputStreamLog log = new StandardOutputStreamLog();
 
+    // Functional testing
+
+    // a) Equivalence partitioning
+    @Test
+    public void equivalencePartitioning() {
+
+    }
+
+    // b) Boundary values analysis
+    @Test
+    public void boundaryValuesAnalysis() {
+
+    }
+
+    // c) Category partitioning
+    @Test
+    public void categoryPartitioning() {
+
+    }
+
     @Test
     public void testAccountDoesNotExistMessage() {
         distributor.distributeMoney(999, 100.0, "Salary");
