@@ -1,6 +1,6 @@
 # Proiect-TSS-2025
 
-Membrii echipă:
+Membrii echipei:
 * Ciobanu Dragoș (grupa 351)
 * Petrovici Ricardo (grupa 351)
 * Mihnea Vicențiu Bucă (grupa 352)
@@ -15,6 +15,9 @@ Testarea unitară reprezintă o practică esențială în dezvoltarea de softwar
 * [Testare unitară: Termenul de „testare unitară” se referă la testarea individuală a unor unități separate dintr-un sistem software. În sistemele orientate pe obiecte, aceste „unități” sunt de regulă clase și metode.](https://users.utcluj.ro/~igiosan/Resources/POO/Lab/12-Testarea_Unitara.pdf)
 
 * [Avantajele testării unitare: Stabilitate, detectare rapidă a erorilor, facilitarea refactorizării.](https://www.researchgate.net/publication/379508034_The_Crucial_Role_of_Unit_Tests_in_Software_Development)
+
+### Functional Testing
+Functional testing (sau black-box testing) se concentrează pe verificarea funcționalității aplicației conform specificațiilor cerute, fără a ține cont de implementarea internă a codului. Testele sunt concepute pentru a valida dacă sistemul produce rezultatele așteptate în funcție de inputuri specifice, asigurând că toate funcțiile cerute sunt implementate corect.
 
 #### Structural Testing 
 Structural testing (sau white-box testing) se concentrează pe analiza internă a structurii codului sursă. Testele sunt proiectate pe baza cunoașterii implementării interne, verificând fluxurile de control și logica internă. Această abordare ajută la identificarea erorilor în structura și logica internă a codului.
@@ -59,7 +62,7 @@ Utilizarea mutation testing cu PIT poate consuma resurse semnificative și poate
 * Limitări în Testarea Scenariilor Complexe:
 Deși JUnit este excelent pentru testele unitare simple, gestionarea testelor pentru scenarii complexe (care implică interacțiuni cu componente externe sau baze de date) poate necesita integrarea unor librării suplimentare, cum ar fi framework-uri de mocking.
 
-* Rapoarte Detaliate Necesită Interpretare:
+* Rapoartele Detaliate Necesită Interpretare:
 Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă pentru a extrage informațiile relevante, ceea ce poate implica un efort suplimentar din partea echipei.
 
 ### 4. Servicii Disponibile
