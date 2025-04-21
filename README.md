@@ -16,7 +16,7 @@ Testarea unitară reprezintă o practică esențială în dezvoltarea de softwar
 
 * [Avantajele testării unitare: Stabilitate, detectare rapidă a erorilor, facilitarea refactorizării.](https://www.researchgate.net/publication/379508034_The_Crucial_Role_of_Unit_Tests_in_Software_Development)
 
-### Functional Testing
+#### Functional Testing
 Functional testing (sau black-box testing) se concentrează pe verificarea funcționalității aplicației conform specificațiilor cerute, fără a ține cont de implementarea internă a codului. Testele sunt concepute pentru a valida dacă sistemul produce rezultatele așteptate în funcție de inputuri specifice, asigurând că toate funcțiile cerute sunt implementate corect.
 
 #### Structural Testing 
