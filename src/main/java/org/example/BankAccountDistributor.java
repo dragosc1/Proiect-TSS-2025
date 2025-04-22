@@ -21,6 +21,7 @@ public class BankAccountDistributor {
     public void addSpendingAccount(int accountId, String spendingName, double amount, double percentage) {
         if (!spendingAccounts.containsKey(accountId)) {
             System.out.println("Account " + accountId + " does not exist");
+            return;
         }
         spendingAccounts.get(accountId).put(spendingName, new AbstractMap.SimpleEntry<>(amount, percentage));
     }
@@ -28,13 +29,14 @@ public class BankAccountDistributor {
     public void addMoneyToSavingAccount(int accountId, double amount) {
         if (!savingAccount.containsKey(accountId)) {
             System.out.println("Account " + accountId + " does not exist");
+            return;
         }
         savingAccount.put(accountId, savingAccount.get(accountId) + amount);
     }
 
     public void distributeMoney(int accountId, double amount, String description) {
         if (!spendingAccounts.containsKey(accountId)) {
-            System.out.println("Account " + accountId + " does not exist");
+            System.out.println("Error: Account " + accountId + " does not exist");
             return;
         }
 
@@ -53,7 +55,7 @@ public class BankAccountDistributor {
             totalPercentage += entryValue.getValue();
         }
 
-        if (totalPercentage > 100 - EPS && totalPercentage < 100 + EPS) {
+        if (totalPercentage > 100 - EPS) {
             System.out.println("No savings for account " + accountId);
         }
         else {
@@ -75,38 +77,7 @@ public class BankAccountDistributor {
         savingAccount.put(accountId, currentSavings + remainingAmount);
     }
 
-    public Map<Integer, Double> getSavingAccountMap() {
-        return savingAccount;
-    }
-
     public double getSavingsForAccount(int accountId) {
         return savingAccount.getOrDefault(accountId, 0.0);
-    }
-
-    public Map<Integer, Map<String, AbstractMap.SimpleEntry<Double, Double>>> getSpendingAccounts() {
-        return spendingAccounts;
-    }
-
-    public Map<String, AbstractMap.SimpleEntry<Double, Double>> getSpendingMapForAccount(int accountId) {
-        return spendingAccounts.getOrDefault(accountId, new HashMap<>());
-    }
-
-    public static void main(String[] args) {
-        BankAccountDistributor bankDistributor = new BankAccountDistributor();
-
-        int accountId = 101;
-        bankDistributor.addUser(accountId);
-
-        bankDistributor.addSpendingAccount(accountId, "Main account", 0.0, 40.0);
-        bankDistributor.addSpendingAccount(accountId, "Entertainment", 0.0, 20.0);
-        bankDistributor.addSpendingAccount(accountId, "Groceries", 0.0, 10.0);
-
-        bankDistributor.addMoneyToSavingAccount(accountId, 100.0);
-
-        System.out.println("\nDistributing $1000 to account " + accountId);
-        bankDistributor.distributeMoney(accountId, 1000.0, "Salary");
-
-        System.out.println("\nDistributing $500 to account " + accountId);
-        bankDistributor.distributeMoney(accountId, 500.0, "Winning a competition");
     }
 }
