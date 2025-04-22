@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.Rule;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -94,11 +96,142 @@ public class BankAccountDistributorTest {
         assertTrue("Savings should increase", savingsAfter > savingsBefore);
     }
 
+    enum Outcome { ACCOUNT_ERR, AMOUNT_ERR, PERCENT_ERR, ALL_SAVED, PARTIAL_SAVED, NO_SAVED }
+
+    static class CPCase {
+        int accountId;
+        boolean createAccount;
+        double amount;
+        double[] percentages;
+        Outcome outcome;
+        double expectedSavings;
+        String note;
+
+        CPCase(int accountId, boolean createAccount, double amount, double[] percentages, Outcome outcome, double expectedSavings, String note) {
+            this.accountId = accountId;
+            this.createAccount = createAccount;
+            this.amount = amount;
+            this.percentages = percentages;
+            this.outcome = outcome;
+            this.expectedSavings = expectedSavings;
+            this.note = note;
+        }
+    }
+
+    static class Identificator {
+        int id;
+        public Identificator(int id) {
+            this.id = id;
+        }
+    }
+
+    public int nextId(Identificator ID) {
+        ID.id += 1;
+        return ID.id;
+    }
+
     // c) Category partitioning
+    /*
+     *  2  Categories and alternatives
+     *
+     *  i  – account existence
+     *      i1  { i | account does not exist (≤0 or not in map) }
+     *      i2  { i | account exists }
+     *
+     *  a  – amount value
+     *      a1  < 0          (negative amount)
+     *      a2  0
+     *      a3  ε            (minimal positive value, e.g.0.01)
+     *      a4  M            ("medium" value, e.g.100)
+     *      a5  L            (large value, e.g.1000000)
+     *
+     *  p  – sum of percentages
+     *      p1  0%          (no spending accounts)
+     *      p2  1…99%     (spending<100%)
+     *      p3  100%
+     *      p4  >100%
+     *
+     *  c  – number of categories
+     *      c1  0            (savings‑only account)
+     *      c2  1            (single spending account)
+     *      c3  2…n        (at least two)
+     */
+
     @Test
     public void categoryPartitioning() {
+        List<CPCase> cases = new ArrayList<>();
+        Identificator ID = new Identificator(10);
 
+        // i1
+        cases.add(new CPCase(404, false, 100, new double[]{}, Outcome.ACCOUNT_ERR, 0, "Cat1"));
+        // i3 + a1
+        cases.add(new CPCase(nextId(ID), true, -50, new double[]{}, Outcome.AMOUNT_ERR, 0, "Cat2"));
+        // i3 + a2
+        cases.add(new CPCase(nextId(ID), true, 0, new double[]{}, Outcome.AMOUNT_ERR, 0, "Cat3"));
+
+        // ALL_SAVED (p=0%)
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{}, Outcome.ALL_SAVED, 0.01, "Cat4"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{}, Outcome.ALL_SAVED, 100, "Cat5"));
+        cases.add(new CPCase(nextId(ID), true, 1000000, new double[]{}, Outcome.ALL_SAVED, 1000000, "Cat6"));
+
+        // PARTIAL_SAVED (p<100%)
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{10}, Outcome.PARTIAL_SAVED, 0.009, "Cat7"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{10}, Outcome.PARTIAL_SAVED, 90, "Cat8"));
+        cases.add(new CPCase(nextId(ID), true, 1000000, new double[]{30, 30}, Outcome.PARTIAL_SAVED, 400000, "Cat9"));
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{75, 0, 0}, Outcome.PARTIAL_SAVED, 0.0025, "Cat10"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{75, 0, 0}, Outcome.PARTIAL_SAVED, 25, "Cat11"));
+        cases.add(new CPCase(nextId(ID), true, 1000000, new double[]{10}, Outcome.PARTIAL_SAVED, 900000, "Cat12"));
+
+        // NO_SAVED (p=100%)
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{100}, Outcome.NO_SAVED, 0, "Cat13"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{100}, Outcome.NO_SAVED, 0, "Cat14"));
+        cases.add(new CPCase(nextId(ID), true, 1000000, new double[]{100}, Outcome.NO_SAVED, 0, "Cat15"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{50, 50, 0}, Outcome.NO_SAVED, 0, "Cat16"));
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{40, 60}, Outcome.NO_SAVED, 0, "Cat17"));
+
+        // PERCENT_ERR (p>100%)
+        cases.add(new CPCase(nextId(ID), true, 0.01, new double[]{100.01}, Outcome.PERCENT_ERR, 0, "Cat18"));
+        cases.add(new CPCase(nextId(ID), true, 100, new double[]{150}, Outcome.PERCENT_ERR, 0, "Cat19"));
+        cases.add(new CPCase(nextId(ID), true, 1000000, new double[]{60, 60}, Outcome.PERCENT_ERR, 0, "Cat20"));
+
+        for (CPCase categorycase : cases) {
+            int startLog = log.getLog().length();
+
+            if (categorycase.createAccount) {
+                distributor.addUser(categorycase.accountId);
+                int catIdx = 1;
+                for (double pct : categorycase.percentages) {
+                    distributor.addSpendingAccount(categorycase.accountId, "cat" + catIdx++, 0.0, pct);
+                }
+            }
+
+            distributor.distributeMoney(categorycase.accountId, categorycase.amount, categorycase.note);
+
+            String newLog = log.getLog().substring(startLog);
+
+            switch (categorycase.outcome) {
+                case ACCOUNT_ERR:
+                    assertTrue("Expect account error for " + categorycase.note, newLog.contains("Account " + categorycase.accountId + " does not exist"));
+                    break;
+                case AMOUNT_ERR:
+                    assertTrue("Expect amount error for " + categorycase.note, newLog.contains("Amount must be greater than zero"));
+                    break;
+                case PERCENT_ERR:
+                    assertTrue("Expect percentage error for " + categorycase.note, newLog.contains("has a very large percentage"));
+                    break;
+                case NO_SAVED:
+                    assertTrue("Expect no savings log for " + categorycase.note, newLog.contains("No savings for account " + categorycase.accountId));
+                    assertEquals(0.0, distributor.getSavingsForAccount(categorycase.accountId), 0.0001);
+                    break;
+                case ALL_SAVED:
+                    break;
+                case PARTIAL_SAVED:
+                    assertEquals("Incorrect savings for " + categorycase.note, categorycase.expectedSavings, distributor.getSavingsForAccount(categorycase.accountId), 0.0001);
+                    break;
+            }
+        }
     }
+
 
     // -------- AUXILIARY TESTS FOR FULL COVERAGE ------ //
     @Test
