@@ -31,6 +31,7 @@ public class BankAccountDistributorTest {
     // Functional testing
 
     // a) Equivalence partitioning
+    // 6 classes of equivalence
     @Test
     public void equivalencePartitioning() {
         // 1. accountId valid, positive amount => Distributing the money
@@ -66,7 +67,31 @@ public class BankAccountDistributorTest {
     // b) Boundary values analysis
     @Test
     public void boundaryValuesAnalysis() {
+        // CASE 1. 0% total spending
+        distributor.addUser(3);
+        double amountZeroSpending = 100.0;
+        distributor.distributeMoney(3, amountZeroSpending, "0% spending");
+        assertEquals("Entire amount should be saved", amountZeroSpending, distributor.getSavingsForAccount(3), 0.0001);
 
+        // CASE 2. 99% total spending
+        distributor.addUser(4);
+        distributor.addSpendingAccount(4, "Just under full", 0.0, 99.0);
+        double amountAlmostFull = 100.0;
+        distributor.distributeMoney(4, amountAlmostFull, "99% spending");
+        double expectedSavings = amountAlmostFull * 0.01;
+        assertEquals("Only 1% should go to savings", expectedSavings, distributor.getSavingsForAccount(4), 0.0001);
+
+        // CASE 3. 100% spending
+        distributor.addUser(5);
+        distributor.addSpendingAccount(5, "Full", 0.0, 100.0);
+        distributor.distributeMoney(5, 120.0, "100% spending");
+        assertTrue(log.getLog().contains("No savings for account 5"));
+
+        // CASE 4: amount just over 0
+        double savingsBefore = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 0.01, "smallest positive amount");
+        double savingsAfter = distributor.getSavingsForAccount(1);
+        assertTrue("Savings should increase", savingsAfter > savingsBefore);
     }
 
     // c) Category partitioning
@@ -86,5 +111,17 @@ public class BankAccountDistributorTest {
     public void addMoneyToNotExistingSavingAccount() {
         distributor.addMoneyToSavingAccount(404, 100.0);
         assertTrue(log.getLog().contains("Account 404 does not exist"));
+    }
+
+    @Test
+    public void addExistingSpendingAccount() {
+        distributor.addSpendingAccount(1, "Rent", 0.0, 40.0);
+        assertTrue(log.getLog().contains("Spending account Rent already exists"));
+    }
+
+    @Test
+    public void addLargePercentageSpendingAccount() {
+        distributor.addSpendingAccount(1, "Car", 100.0, 30.0);
+        assertTrue(log.getLog().contains("Spending account Car has a very large percentage"));
     }
 }

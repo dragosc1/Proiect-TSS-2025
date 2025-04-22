@@ -23,6 +23,19 @@ public class BankAccountDistributor {
             System.out.println("Account " + accountId + " does not exist");
             return;
         }
+        double totalPercentage = 0;
+        for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingAccounts.get(accountId).entrySet()) {
+            if (entry.getKey().equals(spendingName)) {
+                System.out.println("Spending account " + spendingName + " already exists");
+                return;
+            }
+            totalPercentage += entry.getValue().getValue();
+        }
+        if (totalPercentage + percentage > 100.0 + EPS) {
+            System.out.println("Spending account " + spendingName + " has a very large percentage");
+            System.out.println("Remaining percentage without account: " + totalPercentage + "%");
+            return;
+        }
         spendingAccounts.get(accountId).put(spendingName, new AbstractMap.SimpleEntry<>(amount, percentage));
     }
 
