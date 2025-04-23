@@ -34,31 +34,47 @@ public class BankAccountDistributorTest {
 
     // a) Equivalence partitioning
     // 6 classes of equivalence
+    /*
+     *  i  – account existence
+     *      i1  { i | account does not exist (not in map) }
+     *      i2  { i | account exists }
+     *
+     *  a  – amount value
+     *      a1  < 0          (negative amount)
+     *      a2  0
+     *      a3  > 0          (positive amount)
+     *
+     *  p  – sum of percentages
+     *      p1  1…99%     (spending<100%)
+     *      p2  100%
+     *      p3  >100% (excluded because other function is managing this)
+     *
+     */
     @Test
     public void equivalencePartitioning() {
-        // 1. accountId valid, positive amount => Distributing the money
+        // 1. accountId valid, positive amount => Distributing the money (i2, a3, _)
         distributor.distributeMoney(1, 100.0, "Valid input");
         assertTrue(log.getLog().contains("Distributing $100.0 for account 1 [Valid input]"));
 
-        // 2. accountId invalid => Error message
+        // 2. accountId invalid => Error message (i1, _, _)
         distributor.distributeMoney(404, 100.0, "Invalid input");
         assertTrue(log.getLog().contains("Error: Account 404 does not exist"));
 
-        // 3. negative amount => Error message
+        // 3. negative amount => Error message (i2, a1, _)
         distributor.distributeMoney(1, -50.0, "Negative amount");
         assertTrue(log.getLog().contains("Error: Amount must be greater than zero."));
 
-        // 4. amount = 0 => Error message
+        // 4. amount = 0 => Error message (i2, a2, _)
         distributor.distributeMoney(1, 0.0, "0 amount");
         assertTrue(log.getLog().contains("Error: Amount must be greater than zero."));
 
-        // 5. Partial Spending percentage (< 100%) => Savings
+        // 5. Partial Spending percentage (< 100%) => Savings  (i2, a3, p1)
         double prev = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Partial spending");
         double now = distributor.getSavingsForAccount(1);
         assertTrue(now > prev);
 
-        // 6. Full Spending percentage (100%) => No Savings
+        // 6. Full Spending percentage (100%) => No Savings (i2, a3, p2)
         distributor.addUser(2);
         distributor.addSpendingAccount(2, "Car", 0.0, 50.0);
         distributor.addSpendingAccount(2, "Housing", 0.0, 50.0);
@@ -67,6 +83,26 @@ public class BankAccountDistributorTest {
     }
 
     // b) Boundary values analysis
+    /*
+     *  i  – account existence
+     *      i1  { i | account does not exist (not in map) }
+     *      i2  { i | account exists }
+     *
+     *  a  – amount value
+     *
+     *      a1  < 0          (negative amount)
+     *      a2  0
+     *      a2 0.01          (amount just over 0) - BOUNDARY CHECK
+     *      a3  > 0.01       (positive amount)
+     *
+     *  p  – sum of percentages
+     *      p1  0%        (0% total spending) - BOUNDARY CHECK
+     *      p1  1…98%     (spending<99%)
+     *      p2  99%       (spending just under full) - BOUNDARY CHECK
+     *      p2  100%      - BOUNDARY CHECK
+     *      p3  >100% (excluded because other function is managing this)
+     *
+     */
     @Test
     public void boundaryValuesAnalysis() {
         // CASE 1. 0% total spending
@@ -135,13 +171,13 @@ public class BankAccountDistributorTest {
      *  2  Categories and alternatives
      *
      *  i  – account existence
-     *      i1  { i | account does not exist (≤0 or not in map) }
+     *      i1  { i | account does not exist (not in map) }
      *      i2  { i | account exists }
      *
      *  a  – amount value
      *      a1  < 0          (negative amount)
      *      a2  0
-     *      a3  ε            (minimal positive value, e.g.0.01)
+     *      a3  eps          (minimal positive value, e.g.0.01)
      *      a4  M            ("medium" value, e.g.100)
      *      a5  L            (large value, e.g.1000000)
      *
