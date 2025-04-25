@@ -76,7 +76,9 @@ public class BankAccountDistributor {
             spendingMap.put(spendingName, new AbstractMap.SimpleEntry<>(newAmount, entryValue.getValue()));
         }
 
-        if (totalPercentage > 100 - EPS) {
+        boolean hasSaveFlag = description.toUpperCase().contains("SAVE");
+
+        if (totalPercentage > 100 - EPS || !hasSaveFlag) {
             System.out.println("No savings for account " + accountId);
         }
         else {
