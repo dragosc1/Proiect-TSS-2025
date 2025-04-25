@@ -68,13 +68,6 @@ public class BankAccountDistributor {
             totalPercentage += entryValue.getValue();
         }
 
-        if (totalPercentage > 100 - EPS) {
-            System.out.println("No savings for account " + accountId);
-        }
-        else {
-            System.out.println("Remaining money of " + Double.toString((100 - totalPercentage) / 100 * amount) + " added to savings account for account " + accountId);
-        }
-
         for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()) {
             String spendingName = entry.getKey();
             AbstractMap.SimpleEntry<Double, Double> entryValue = entry.getValue();
@@ -83,11 +76,17 @@ public class BankAccountDistributor {
             spendingMap.put(spendingName, new AbstractMap.SimpleEntry<>(newAmount, entryValue.getValue()));
         }
 
-        double totalSpendingAmount = amount * (totalPercentage / 100);
-        double remainingAmount = amount - totalSpendingAmount;
-
-        double currentSavings = savingAccount.get(accountId);
-        savingAccount.put(accountId, currentSavings + remainingAmount);
+        if (totalPercentage > 100 - EPS) {
+            System.out.println("No savings for account " + accountId);
+        }
+        else {
+            System.out.println("Remaining money of " + Double.toString((100 - totalPercentage) / 100 * amount) + " added to savings account for account " + accountId);
+            double totalSpendingAmount = amount * (totalPercentage / 100);
+            double remainingAmount = amount - totalSpendingAmount;
+    
+            double currentSavings = savingAccount.get(accountId);
+            savingAccount.put(accountId, currentSavings + remainingAmount);
+        }
     }
 
     public double getSavingsForAccount(int accountId) {
