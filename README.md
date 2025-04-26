@@ -84,7 +84,19 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
   Instrument de mutation testing folosit pentru evaluarea eficienței suitei de teste.  
   [Setup PIT](https://pitest.org/quickstart/)
   * Run: mvn clean test pitest:mutationCoverage
+ 
+### Tabel de decizie – `distributeMoney`
 
-
-
-
+|       | Cat1 | Cat2 | Cat3 | Cat4 | Cat5 | Cat6 | Cat7 | Cat8 | Cat9 | Cat10 | Cat11 | Cat12 | Cat13 | Cat14 | Cat15 | Cat16 | Cat17 | Cat18 | Cat19 | Cat20 |
+|:-----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| **C1**<br/>(existing account)     | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **C2**<br/>(amount > 0)           | 1    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **C3**<br/>(total% > 100−EPS)     | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **C4**<br/>(“SAVE” description)   | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 1     | 0     | 1     | 0     | 1     | 0     |
+| **E1**<br/>(ACCOUNT_ERR)          | 1    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+| **E2**<br/>(AMOUNT_ERR)           | 0    | 1    | 1    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+| **E3**<br/>(“Distributing…”)      | 0    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **E4**<br/>(“No savings…”)        | 0    | 0    | 0    | 0    | 1    | 0    | 0    | 1    | 0    | 1     | 0     | 1     | 0     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **E5**<br/>(“Remaining money…”)   | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+| **E6**<br/>(update spending)      | 0    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
+| **E7**<br/>(update savings)       | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
