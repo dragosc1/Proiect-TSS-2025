@@ -105,3 +105,7 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 ### Cause Effect Graph
 ![image](https://github.com/user-attachments/assets/a7dbfbf2-a3e4-4609-bae6-b1eb84b3aa12)
 
+### Control Flow Graph
+![diagrama](https://github.com/user-attachments/assets/7e1fdc08-bb1b-49a1-b85b-62d099b3e328)
+
+
