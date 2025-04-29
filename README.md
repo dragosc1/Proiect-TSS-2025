@@ -100,3 +100,8 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 | **E5**<br/>(“Remaining money…”)   | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 | **E6**<br/>(update spending)      | 0    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
 | **E7**<br/>(update savings)       | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+
+
+### Cause Effect Graph
+![image](https://github.com/user-attachments/assets/a7dbfbf2-a3e4-4609-bae6-b1eb84b3aa12)
+
