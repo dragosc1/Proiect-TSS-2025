@@ -54,7 +54,7 @@ public class BankAccountDistributorTest {
      *      s2  { desc without "SAVE" }
      */
     @Test
-    public void equivalencePartitioning() {
+    public void FunctionalTesting_1_equivalencePartitioning() {
         // 1. accountId invalid => Error message (i1, _, _, _)
         log.clear();
         distributor.distributeMoney(404, 100.0, "Invalid input");
@@ -116,7 +116,7 @@ public class BankAccountDistributorTest {
      *      s2  { desc without "SAVE" }
      */
     @Test
-    public void boundaryValuesAnalysis() {
+    public void FunctionalTesting_2_boundaryValuesAnalysis() {
         // CASE 1. 0% total spending
         distributor.addUser(3);
         double amountZeroSpending = 100.0;
@@ -215,7 +215,7 @@ public class BankAccountDistributorTest {
      */
 
     @Test
-    public void categoryPartitioning() {
+    public void FunctionalTesting_3_categoryPartitioning() {
         List<CPCase> cases = new ArrayList<>();
         Identificator ID = new Identificator(10);
 
@@ -292,28 +292,28 @@ public class BankAccountDistributorTest {
 
     // -------- AUXILIARY TESTS FOR FULL COVERAGE ------ //
     @Test
-    public void addSpendingAccountToNotExistingAccount() {
+    public void aux_addSpendingAccountToNotExistingAccount() {
         log.clear();
         distributor.addSpendingAccount(404, "Car", 0.0, 40.0);
         assertTrue(log.getLog().contains("Account 404 does not exist"));
     }
 
     @Test
-    public void addMoneyToNotExistingSavingAccount() {
+    public void aux_addMoneyToNotExistingSavingAccount() {
         log.clear();
         distributor.addMoneyToSavingAccount(404, 100.0);
         assertTrue(log.getLog().contains("Account 404 does not exist"));
     }
 
     @Test
-    public void addExistingSpendingAccount() {
+    public void aux_addExistingSpendingAccount() {
         log.clear();
         distributor.addSpendingAccount(1, "Rent", 0.0, 40.0);
         assertTrue(log.getLog().contains("Spending account Rent already exists"));
     }
 
     @Test
-    public void addLargePercentageSpendingAccount() {
+    public void aux_addLargePercentageSpendingAccount() {
         log.clear();
         distributor.addSpendingAccount(1, "Car", 100.0, 30.0);
         assertTrue(log.getLog().contains("Spending account Car has a very large percentage"));
