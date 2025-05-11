@@ -114,8 +114,8 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 | `i`       | `i1`  | Contul **nu există** în sistemul bancar|
 |           | `i2`  | Contul **există** în sistemul bancar   |
 | `a`       | `a1`  | Suma distribuită este **negativă**     |
-|           | `a2`  | Suma distribuităeste **zero**          |
-|           | `a3`  | Suma distribuităeste **pozitivă**      |
+|           | `a2`  | Suma distribuită este **zero**         |
+|           | `a3`  | Suma distribuită este **pozitivă**     |
 | `p`       | `p1`  | Procentele însumează **sub 100%**      |
 |           | `p2`  | Procentele însumează **exact 100%**    |
 |           | `p3`  | Procentele **peste 100%** – caz exclus |
