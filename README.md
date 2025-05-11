@@ -27,7 +27,7 @@ Structural testing (sau white-box testing) se concentrează pe analiza internă 
 #### Mutation Testing 
 Mutation testing presupune introducerea intenționată a unor modificări minore (mutanți) în codul sursă pentru a evalua eficacitatea suitei de teste. Scopul este de a determina dacă testele existente pot detecta aceste modificări, evidențiind astfel eventuale lacune în acoperirea testelor.
 
-### 3. [Analiza Aplicațiilor Existente](https://github.com/apache/commons-lang)
+### 3. [Analiza Aplicațiilor Existente](https://github.com/apache/commons-lang) (Strategii de testare)
 Un exemplu concret este <b>Apache Commons Lang.</b> Acest proiect open source, parte din Apache Commons, folosește:
 
 * Maven pentru gestionarea dependențelor și automatizarea build-ului,
@@ -76,8 +76,40 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
   Instrument de mutation testing folosit pentru evaluarea eficienței suitei de teste.  
   [Setup PIT](https://pitest.org/quickstart/)
   * Run: mvn clean test pitest:mutationCoverage
- 
-### Tabel de decizie – `distributeMoney`
+
+## Configurația software
+
+* **IDE**: IntelliJ IDEA Community Edition
+* **JDK**: OpenJDK 24 (2024-03-18)
+* **Limbaj și compilator**: Java 17 (setat în Maven prin `maven.compiler.source` și `target`)
+* **Build system**: Maven
+* **Testing**:
+
+  * **JUnit**: 4.13.2
+  * **system-rules**: 1.19.0
+* **Test coverage**: JaCoCo 0.8.10
+* **Mutation testing**: PIT (pitest-maven) 1.15.0
+* **Note**: No Virtual Machine was used. 
+
+## Configurația hardware
+
+* **Sistem**: Apple Mac cu cip M2
+* **Sistem de operare**: macOS (ultima versiune disponibilă la momentul utilizării)
+
+## Testare funcție - `distributeMoney`
+
+Funcția distributeMoney distribuie o sumă de bani (amount) către diferite categorii de cheltuieli asociate unui cont (accountId), conform procentelor stabilite. Dacă în descriere este inclus cuvântul „SAVE” și procentele de distribuție însumate sunt sub 100%, diferența rămasă este adăugată automat în contul de economii. Funcția verifică validitatea contului și a sumei, afișând mesaje corespunzătoare în caz de eroare sau la finalul distribuției.
+
+![image](https://github.com/user-attachments/assets/84906b93-cfb7-4d01-9989-35fc2cc35ba9)
+
+## Functional Testing
+### Împărțire în clase de echivalență
+
+### Analiză valori de frontieră
+
+### Împărțire în categorii:
+
+#### Tabel de decizie – `distributeMoney`
 
 |       | Cat1 | Cat2 | Cat3 | Cat4 | Cat5 | Cat6 | Cat7 | Cat8 | Cat9 | Cat10 | Cat11 | Cat12 | Cat13 | Cat14 | Cat15 | Cat16 | Cat17 | Cat18 | Cat19 | Cat20 |
 |:-----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
@@ -94,10 +126,13 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 | **E7**<br/>(update savings)       | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
 
 
-### Cause Effect Graph
+#### Cause Effect Graph
 ![photo](https://github.com/user-attachments/assets/29a72f8b-185d-4427-bdfe-4c9d32cde8db)
 
+## Structural Testing
 ### Control Flow Graph
 ![diagrama](https://github.com/user-attachments/assets/7e1fdc08-bb1b-49a1-b85b-62d099b3e328)
+
+## Mutation Testing
 
 
