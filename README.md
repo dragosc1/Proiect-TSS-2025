@@ -16,6 +16,8 @@ Testarea unitară reprezintă o practică esențială în dezvoltarea de softwar
 
 * [Avantajele testării unitare: Stabilitate, detectare rapidă a erorilor, facilitarea refactorizării.](https://www.researchgate.net/publication/379508034_The_Crucial_Role_of_Unit_Tests_in_Software_Development)
 
+* [State of Art Coverage Tools](https://www.eecs.yorku.ca/~zmjiang/publications/ase2018_chen.pdf)
+
 #### Functional Testing
 Functional testing (sau black-box testing) se concentrează pe verificarea funcționalității aplicației conform specificațiilor cerute, fără a ține cont de implementarea internă a codului. Testele sunt concepute pentru a valida dacă sistemul produce rezultatele așteptate în funcție de inputuri specifice, asigurând că toate funcțiile cerute sunt implementate corect.
 
@@ -53,14 +55,6 @@ PIT, prin mutation testing, permite evaluarea eficienței testelor, identificân
 Aceste instrumente sunt bine-cunoscute și folosite pe scară largă în ecosistemul Java, beneficiind de documentație extinsă și suport din partea comunității.
 
 Dezavantaje
-* Complexitate în Configurare:
-Configurarea inițială a Maven, în special pentru proiecte mari sau foarte customizate, poate deveni complexă și necesită o înțelegere aprofundată a structurii proiectului.
-
-* Resurse și Timp de Execuție:
-Utilizarea mutation testing cu PIT poate consuma resurse semnificative și poate prelungi timpul de execuție al testelor, fiind o provocare în proiectele de anvergură mare.
-
-* Limitări în Testarea Scenariilor Complexe:
-Deși JUnit este excelent pentru testele unitare simple, gestionarea testelor pentru scenarii complexe (care implică interacțiuni cu componente externe sau baze de date) poate necesita integrarea unor librării suplimentare, cum ar fi framework-uri de mocking.
 
 * Rapoartele Detaliate Necesită Interpretare:
 Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă pentru a extrage informațiile relevante, ceea ce poate implica un efort suplimentar din partea echipei.
