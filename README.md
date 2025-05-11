@@ -213,3 +213,15 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 | `MutationTesting_1_testDistributeMoneyPrintMessage` | Verifică dacă mesajul `"Distributing..."` este afișat corect          | Mutant pe `System.out.println(...)` eliminat               |
 | `MutationTesting_2_testSavingNumberChanged`         | Verifică dacă mesajul despre adăugarea la economii este afișat corect | Mutant pe `println` cu suma rămasă eliminat                |
 
+## JaCoCo Run & Analysis
+
+Toate metodele, liniile de cod și ramurile condiționale au fost acoperite de teste — adică testele verifică complet comportamentul clasei.
+
+* **Acoperire clase:** 100% (1 din 1)
+* **Acoperire metode:** 100% (6 din 6)
+* **Acoperire linii:** 100% (44 din 44)
+* **Acoperire ramuri (branch):** 100% (22 din 22)
+
+
+![image](https://github.com/user-attachments/assets/fb6ac978-f360-4e06-ac8c-b2de041ef6b9)
+
