@@ -105,12 +105,81 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 ## Functional Testing
 ### Împărțire în clase de echivalență
 
+
+Împărțirea în clase de echivalență este o tehnică de testare care împarte spațiul de intrări în clase echivalente: dacă un test dintr-o clasă trece sau eșuează, se presupune că și celelalte din acea clasă se comportă la fel. Astfel, testăm câte un exemplu din fiecare clasă.
+
+### Variabile / clase definite
+| Variabilă | Clasă | Descriere                              |
+| --------- | ----- | -------------------------------------- |
+| `i`       | `i1`  | Contul **nu există** în sistemul bancar|
+|           | `i2`  | Contul **există** în sistemul bancar   |
+| `a`       | `a1`  | Suma distribuită este **negativă**     |
+|           | `a2`  | Suma distribuităeste **zero**          |
+|           | `a3`  | Suma distribuităeste **pozitivă**      |
+| `p`       | `p1`  | Procentele însumează **sub 100%**      |
+|           | `p2`  | Procentele însumează **exact 100%**    |
+|           | `p3`  | Procentele **peste 100%** – caz exclus |
+| `s`       | `s1`  | Descrierea **conține** cuvântul "SAVE" |
+|           | `s2`  | Descrierea **nu conține** "SAVE"       |
+
+### Tabel cazuri de testare (combinări spre clase de echivalență):
+
+| Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                         |
+| ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------- |
+| 1    | i1 – nu există     | -        | -                | -           | Eroare: contul nu există        |
+| 2    | i2 – există        | a1 < 0 | -                  | -           | Eroare: sumă negativă           |
+| 3    | i2 – există        | a2 = 0   | -                | -           | Eroare: sumă zero               |
+| 4    | i2 – există        | a3 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
+| 5    | i2 – există        | a3 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
+| 6    | i2 – există        | a3 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
+
 ### Analiză valori de frontieră
 
-### Împărțire în categorii:
+Boundary Value Analysis este o tehnică de testare care se concentrează pe comportamentul aplicației la limitele valorilor acceptate. Erorile apar adesea în apropierea acestor limite, deci testarea acolo este esențială.
 
-#### Tabel de decizie – `distributeMoney`
+### Variabile / limite testate
 
+| Variabilă | Valoare de graniță | Descriere                                                      |
+| --------- | ------------------ | -------------------------------------------------------------- |
+| `a`       | `0.01`             | Cea mai mică sumă pozitivă validă                              |
+| `p`       | `0%`               | Nicio cheltuială – toată suma se economisește                  |
+|           | `99%`              | Aproape tot cheltuit – 1% pentru economii                      |
+|           | `100%`             | Totul cheltuit – nimic salvat                                  |
+| `s`       | `"SAVE"` / fără    | cu sau fără economisire                                        |
+
+### Tabel cazuri de testare (valori-limită analizate)
+
+| Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                              |
+| ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------------ |
+| 1    | i2 – există        | 100.0    | 0%               | s1 – da     | Totul economisit (100%)              |
+| 2    | i2 – există        | 100.0    | 99%              | s1 – da     | Se economisește 1%                   |
+| 3    | i2 – există        | 120.0    | 100%             | s2 – nu     | Nicio economie, totul cheltuit       |
+| 4    | i2 – există        | **0.01** | <100% implicit   | s1 – da     | Se economisește suma minimă posibilă |
+
+### Împărțire în categorii
+
+Category Partitioning este o tehnică de testare care presupune împărțirea intrărilor în **categorii relevante**, fiecare având **alternative posibile**. Apoi, se combină alternativele reprezentative pentru a acoperi cât mai multe situații semnificative, fără a testa toate permutările posibile.
+
+| Categorie                       | Alternativă | Descriere                                               |
+| ------------------------------- | ----------- | ------------------------------------------------------- |
+| `i` – existența contului        | `i1`        | Contul **nu există** în sistem                          |
+|                                 | `i2`        | Contul **există** în sistem                             |
+| `a` – valoarea sumei            | `a1`        | Sumă **negativă**                                       |
+|                                 | `a2`        | Sumă **zero**                                           |
+|                                 | `a3`        | Sumă **minim pozitivă** (ε, ex: `0.01`)                 |
+|                                 | `a4`        | Sumă **medie** (ex: `100`)                              |
+|                                 | `a5`        | Sumă **mare** (ex: `1.000.000`)                         |
+| `p` – suma procentelor          | `p1`        | `0%` – fără conturi de cheltuieli                       |
+|                                 | `p2`        | `1…99%` – cheltuieli parțiale                           |
+|                                 | `p3`        | `100%` – toți banii sunt alocați                        |
+|                                 | `p4`        | `>100%` – peste capacitatea de distribuție (caz exclus) |
+| `c` – nr. conturi de cheltuieli | `c1`        | `0` conturi – cont doar pentru economii                 |
+|                                 | `c2`        | `1` cont de cheltuieli                                  |
+|                                 | `c3`        | `2…n` conturi (cel puțin două)                          |
+| `s` – descriere                 | `s1`        | Descrierea **conține** cuvântul `"SAVE"`                |
+|                                 | `s2`        | Descrierea **nu conține** `"SAVE"`                      |
+
+### Tabel de decizie – `distributeMoney`
 |       | Cat1 | Cat2 | Cat3 | Cat4 | Cat5 | Cat6 | Cat7 | Cat8 | Cat9 | Cat10 | Cat11 | Cat12 | Cat13 | Cat14 | Cat15 | Cat16 | Cat17 | Cat18 | Cat19 | Cat20 |
 |:-----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | **C1**<br/>(existing account)     | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
@@ -135,4 +204,12 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 
 ## Mutation Testing
 
+În cadrul acestor teste, au fost eliminați 2 mutanți care afectau mesajele `println` din metoda `distributeMoney`.
+
+![image](https://github.com/user-attachments/assets/1ff1a3bb-f389-4703-b1d0-3bc186324a91)
+
+| Test                                                | Scop                                                                  | Mutant eliminat                                            |
+| --------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `MutationTesting_1_testDistributeMoneyPrintMessage` | Verifică dacă mesajul `"Distributing..."` este afișat corect          | Mutant pe `System.out.println(...)` eliminat               |
+| `MutationTesting_2_testSavingNumberChanged`         | Verifică dacă mesajul despre adăugarea la economii este afișat corect | Mutant pe `println` cu suma rămasă eliminat                |
 
