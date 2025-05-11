@@ -39,20 +39,18 @@ Un exemplu concret este <b>Apache Commons Lang.</b> Acest proiect open source, p
 * și, în unele cazuri, PIT pentru mutation testing, evaluând astfel eficacitatea suitei de teste.
 
 Avantaje
-* Automatizare și Standardizare:
-Utilizarea Maven permite automatizarea procesului de build și standardizarea structurii proiectului, facilitând gestionarea dependențelor și integrarea continuă.
 
 * Testare Eficientă și Ușor de Implementat:
 JUnit oferă un cadru robust pentru scrierea și rularea testelor unitare, simplificând validarea comportamentului codului.
 
 * Evaluarea Calității Codului:
-JaCoCo oferă rapoarte detaliate privind acoperirea codului, ajutând la identificarea zonelor care necesită teste suplimentare și la monitorizarea îmbunătățirii suitei de teste în timp.
+JaCoCo oferă rapoarte detaliate privind acoperirea codului, ajutând la identificarea zonelor care necesită teste suplimentare.
 
 * Calitatea Suitei de Teste:
 PIT, prin mutation testing, permite evaluarea eficienței testelor, identificând eventualele lacune prin simularea unor defecte minore în cod.
 
 * Comunitate și Suport:
-Aceste instrumente sunt bine-cunoscute și folosite pe scară largă în ecosistemul Java, beneficiind de documentație extinsă și suport din partea comunității.
+Aceste instrumente sunt bine-cunoscute și folosite pe scară largă în ecosistemul Java.
 
 Dezavantaje
 
