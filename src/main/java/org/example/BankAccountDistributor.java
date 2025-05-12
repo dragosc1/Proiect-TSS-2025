@@ -82,7 +82,7 @@ public class BankAccountDistributor {
             System.out.println("No savings for account " + accountId);
         }
         else {
-            System.out.println("Remaining money of " + Double.toString((100 - totalPercentage) / 100 * amount) + " added to savings account for account " + accountId);
+            System.out.println("Remaining money of $" + Double.toString((100 - totalPercentage) / 100 * amount) + " added to savings account for account " + accountId);
             double totalSpendingAmount = amount * (totalPercentage / 100);
             double remainingAmount = amount - totalSpendingAmount;
     

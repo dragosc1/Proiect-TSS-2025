@@ -1,15 +1,13 @@
 package org.example;
 
-import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Rule;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -18,7 +16,7 @@ public class BankAccountDistributorTest {
     private BankAccountDistributor distributor;
 
     @Rule
-    public final StandardOutputStreamLog log = new StandardOutputStreamLog();
+    public final SystemOutRule log = new SystemOutRule().enableLog();
 
     @Before
     public void setUp() {
@@ -56,19 +54,22 @@ public class BankAccountDistributorTest {
     @Test
     public void FunctionalTesting_1_equivalencePartitioning() {
         // 1. accountId invalid => Error message (i1, _, _, _)
-        log.clear();
+        int start = log.getLog().length();
         distributor.distributeMoney(404, 100.0, "Invalid input");
-        assertTrue(log.getLog().contains("Error: Account 404 does not exist"));
+        String out1 = log.getLog().substring(start);
+        assertTrue(out1.contains("Error: Account 404 does not exist"));
 
         // 2. negative amount => Error message (i2, a1, _, _)
-        log.clear();
+        start = log.getLog().length();
         distributor.distributeMoney(1, -50.0, "Negative amount");
-        assertTrue(log.getLog().contains("Error: Amount must be greater than zero."));
+        String out2 = log.getLog().substring(start);
+        assertTrue(out2.contains("Error: Amount must be greater than zero."));
 
         // 3. amount = 0 => Error message (i2, a2, _, _)
-        log.clear();
+        start = log.getLog().length();
         distributor.distributeMoney(1, 0.0, "0 amount");
-        assertTrue(log.getLog().contains("Error: Amount must be greater than zero."));
+        String out3 = log.getLog().substring(start);
+        assertTrue(out3.contains("Error: Amount must be greater than zero."));
 
         // 4. Partial Spending percentage (< 100%) => Savings  (i2, a3, p1, s1)
         double prev_SAVE = distributor.getSavingsForAccount(1);
@@ -76,19 +77,20 @@ public class BankAccountDistributorTest {
         double now_SAVE = distributor.getSavingsForAccount(1);
         assertTrue(now_SAVE > prev_SAVE);
 
-        // 5. Partial Spending percentage (< 100%) => Savings  (i2, a3, p1, s2)
+        // 5. Partial Spending percentage (< 100%) NO SAVE => No Savings  (i2, a3, p1, s2)
         double prev_NO_SAVE = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Partial spending");
         double now_NO_SAVE = distributor.getSavingsForAccount(1);
         assertTrue(prev_NO_SAVE == now_NO_SAVE);
 
         // 6. Full Spending percentage (100%) => No Savings (i2, a3, p2, _)
-        log.clear();
         distributor.addUser(2);
         distributor.addSpendingAccount(2, "Car", 0.0, 50.0);
         distributor.addSpendingAccount(2, "Housing", 0.0, 50.0);
+        start = log.getLog().length();
         distributor.distributeMoney(2, 200.0, "Full spending");
-        assertTrue(log.getLog().contains("No savings for account 2"));
+        String out4 = log.getLog().substring(start);
+        assertTrue(out4.contains("No savings for account 2"));
     }
 
     // b) Boundary values analysis
@@ -132,7 +134,6 @@ public class BankAccountDistributorTest {
         assertEquals("Only 1% should go to savings", expectedSavings, distributor.getSavingsForAccount(4), 0.0001);
 
         // CASE 3. 100% spending
-        log.clear();
         distributor.addUser(5);
         distributor.addSpendingAccount(5, "Full", 0.0, 100.0);
         distributor.distributeMoney(5, 120.0, "100% spending");
@@ -289,32 +290,41 @@ public class BankAccountDistributorTest {
         }
     }
 
+    // Mutation Testing Killing Println
+    @Test
+    public void MutationTesting_1_testDistributeMoneyPrintMessage() {
+        distributor.distributeMoney(1, 120.0, "Mutation testing");
+        assertTrue(log.getLog().contains("Distributing $120.0 for account 1 [Mutation testing]"));
+    }
+
+    // Mutation testing Killing Println
+    @Test
+    public void MutationTesting_2_testSavingNumberChanged() {
+        distributor.distributeMoney(1, 100.0, "Mutation testing SAVE");
+        assertTrue(log.getLog().contains("Remaining money of $10.0 added to savings account for account 1"));
+    }
 
     // -------- AUXILIARY TESTS FOR FULL COVERAGE ------ //
     @Test
     public void aux_addSpendingAccountToNotExistingAccount() {
-        log.clear();
         distributor.addSpendingAccount(404, "Car", 0.0, 40.0);
         assertTrue(log.getLog().contains("Account 404 does not exist"));
     }
 
     @Test
     public void aux_addMoneyToNotExistingSavingAccount() {
-        log.clear();
         distributor.addMoneyToSavingAccount(404, 100.0);
         assertTrue(log.getLog().contains("Account 404 does not exist"));
     }
 
     @Test
     public void aux_addExistingSpendingAccount() {
-        log.clear();
         distributor.addSpendingAccount(1, "Rent", 0.0, 40.0);
         assertTrue(log.getLog().contains("Spending account Rent already exists"));
     }
 
     @Test
     public void aux_addLargePercentageSpendingAccount() {
-        log.clear();
         distributor.addSpendingAccount(1, "Car", 100.0, 30.0);
         assertTrue(log.getLog().contains("Spending account Car has a very large percentage"));
     }
