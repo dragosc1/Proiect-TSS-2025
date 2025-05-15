@@ -328,4 +328,189 @@ public class BankAccountDistributorTest {
         distributor.addSpendingAccount(1, "Car", 100.0, 30.0);
         assertTrue(log.getLog().contains("Spending account Car has a very large percentage"));
     }
+
+    //STRUCTURAL TESTING
+    //a) statement testing
+    // 1) entry accountId = 404, amount = 100, description = "Invalid id"
+    //    instructions covered -> 1, 2..3, 42
+    // 2) entry accountId = 1, amount = -1, description = "Negative amount"
+    //    instructions covered -> 1, 4..5, 6, 7..8
+    // 3) entry accountId = 1, amount = 100, description = "SAVE THE EXTRA"
+    //    instructions covered -> 1, 4..5, 6, 9..15, 16, 17..19, 20, 21, 22..27, 28..30, 31, 34..40, 41, 42
+    // 4) entry accountId = 1, amount = 100, description = "No saving"
+    //    instructions covered -> 1, 4..5, 6, 9..15, 16, 17..19, 20, 21, 22..27, 28..30, 31, 32..33, 41, 42
+
+    @Test
+    public void StatementCoverageTest() {
+        int start = log.getLog().length();
+        distributor.distributeMoney(404, 100, "Invalid id");
+        String out1 = log.getLog().substring(start);
+        assertTrue(out1.contains("Error: Account 404 does not exist"));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -1, "Negative amount");
+        String out2 = log.getLog().substring(start);
+        assertTrue(out2.contains("Error: Amount must be greater than zero."));
+
+        double prev_SAVE = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "SAVE THE EXTRA");
+        double now_SAVE = distributor.getSavingsForAccount(1);
+        assertTrue(now_SAVE > prev_SAVE);
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 100, "No saving");
+        String out3 = log.getLog().substring(start);
+        assertTrue(out3.contains("No savings for account 1"));
+    }
+
+    //b) Decision coverage
+    //decisions:
+    //    (1) if (!spendingAccounts.containsKey(accountId))
+    //    (2) if (amount <= 0)
+    //    (3) for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())
+    //    (4) for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())
+    //    (5) if (totalPercentage > 100 - EPS || !hasSaveFlag)
+    //
+    // accountId |  amount  |   description     | spend % | (1) | (2) | (3) | (4) | (5)
+    //     404   |   100    |   "Invalid id"    |   90%   |  T  |  -  |  -  |  -  |  -
+    //      1    |   -1     | "Negative amount" |   90%   |  F  |  T  |  -  |  -  |  -
+    //      1    |   100    |    "No saving"    |   90%   |  F  |  F  |  T  |  T  |  T
+    //      2    |   100    |       "SAVE"      |    0%   |  F  |  F  |  F  |  F  |  F
+    @Test
+    public void DecisionCoverageTest() {
+        int start = log.getLog().length();
+        distributor.distributeMoney(404, 100, "Invalid id");
+        String out1 = log.getLog().substring(start);
+        assertTrue(out1.contains("Error: Account 404 does not exist"));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -1, "Negative amount");
+        String out2 = log.getLog().substring(start);
+        assertTrue(out2.contains("Error: Amount must be greater than zero."));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 100, "No saving");
+        String out3 = log.getLog().substring(start);
+        assertTrue(out3.contains("No savings for account 1"));
+
+        //Add a new user with id = 2 for the test with no categories for condition (2) and (3)
+        distributor.addUser(2);
+        double prev_SAVE = distributor.getSavingsForAccount(2);
+        distributor.distributeMoney(2, 100.0, "SAVE");
+        double now_SAVE = distributor.getSavingsForAccount(2);
+        assertTrue(now_SAVE > prev_SAVE);
+
+    }
+
+    //c) Condition coverage
+    //decisions:
+    //    (1) if (!spendingAccounts.containsKey(accountId))
+    //    (2) if (amount <= 0)
+    //    (3) for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())
+    //    (4) for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())
+    //    (5) if (totalPercentage > 100 - EPS || !hasSaveFlag)
+    //
+    //conditions:
+    //    c1: !spendingAccounts.containsKey(accountId)
+    //    c2: amount <= 0
+    //    c3: Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()
+    //    c4: Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()
+    //    c5: totalPercentage > 100 - EPS
+    //    c6: !hasSaveFlag
+    //
+    // accountId |  amount  |   description     | spend % | c1 | c2 | c3 | c4 | c5 | c6
+    //     404   |   100    |   "Invalid id"    |   90%   | T  | -  | -  | -  | -  | -
+    //      1    |   -1     | "Negative amount" |   90%   | F  | T  | -  | -  | -  | -
+    //      1    |   100    |    "No saving"    |   90%   | F  | T  | T  | T  | F  | T
+    //      2    |   100    |       "SAVE"      |    0%   | F  | F  | F  | F  | F  | F
+    //      2    |   100    |    "No saving"    |   100%  | F  | T  | T  | T  | T  | T
+    //      2    |   100    |       "SAVE"      |   100%  | F  | T  | T  | T  | T  | F
+
+    @Test
+    public void ConditionCoverageTest() {
+        int start = log.getLog().length();
+        distributor.distributeMoney(404, 100, "Invalid id");
+        String out1 = log.getLog().substring(start);
+        assertTrue(out1.contains("Error: Account 404 does not exist"));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -1, "Negative amount");
+        String out2 = log.getLog().substring(start);
+        assertTrue(out2.contains("Error: Amount must be greater than zero."));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 100, "No saving");
+        String out3 = log.getLog().substring(start);
+        assertTrue(out3.contains("No savings for account 1"));
+
+        //Add a new user with id = 2 for the test with no categories for condition (2) and (3)
+        distributor.addUser(2);
+        double prev_SAVE = distributor.getSavingsForAccount(2);
+        distributor.distributeMoney(2, 100.0, "SAVE");
+        double now_SAVE = distributor.getSavingsForAccount(2);
+        assertTrue(now_SAVE > prev_SAVE);
+
+        //Add new spending category for spending = 100%
+        distributor.addSpendingAccount(2, "Japan trip", 0.0, 100.0);
+
+        start = log.getLog().length();
+        distributor.distributeMoney(2, 100, "No saving");
+        String out4 = log.getLog().substring(start);
+        assertTrue(out4.contains("No savings for account 2"));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(2, 100, "SAVE");
+        String out5 = log.getLog().substring(start);
+        assertTrue(out5.contains("No savings for account 2"));
+    }
+
+    //Circuit testing
+    //n = 17
+    //e = 22
+    //V(G) = 6
+    //Circuits:
+    //    (1) 1, 2..3, 42, 1
+    //    (2) 1, 4..5, 6, 7..8, 42, 1
+    //    (3) 16, 17..19, 16
+    //    (4) 21, 22..27, 21
+    //    (5) 1, 4..5, 6, 9-15, 16, 20, 21, 28..30, 31, 32..33, 41, 42, 1
+    //    (6) 1, 4..5, 6, 9-15, 16, 20, 21, 28..30, 31, 34..40, 41, 42, 1
+    //
+    // accountId |  amount  |   description     | spend % | circuits covered
+    //     404   |   100    |   "Invalid id"    |   90%   | (1)
+    //      1    |   -1     | "Negative amount" |   90%   | (2)
+    //      1    |   100    |    "No saving"    |   90%   | (3), (4)
+    //      2    |   100    |       "SAVE"      |    0%   | (6)
+    //      2    |   100    |    "No saving"    |    0%   | (5)
+
+    @Test
+    public void CircuitCoverageTest() {
+        int start = log.getLog().length();
+        distributor.distributeMoney(404, 100, "Invalid id");
+        String out1 = log.getLog().substring(start);
+        assertTrue(out1.contains("Error: Account 404 does not exist"));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -1, "Negative amount");
+        String out2 = log.getLog().substring(start);
+        assertTrue(out2.contains("Error: Amount must be greater than zero."));
+
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 100, "No saving");
+        String out3 = log.getLog().substring(start);
+        assertTrue(out3.contains("No savings for account 1"));
+
+        //Add a new user with id = 2 for the test with no categories for condition (2) and (3)
+        distributor.addUser(2);
+        double prev_SAVE = distributor.getSavingsForAccount(2);
+        distributor.distributeMoney(2, 100.0, "SAVE");
+        double now_SAVE = distributor.getSavingsForAccount(2);
+        assertTrue(now_SAVE > prev_SAVE);
+
+        start = log.getLog().length();
+        distributor.distributeMoney(2, 100, "No saving");
+        String out4 = log.getLog().substring(start);
+        assertTrue(out4.contains("No savings for account 2"));
+    }
+
 }
