@@ -200,7 +200,85 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 
 ## Structural Testing
 ### Control Flow Graph
-![diagrama](https://github.com/user-attachments/assets/7e1fdc08-bb1b-49a1-b85b-62d099b3e328)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7e1fdc08-bb1b-49a1-b85b-62d099b3e328" alt="diagrama" />
+</p>
+
+### (a) Statement coverage
+
+Statement coverage testing este o tehnică de testare software care verifică dacă fiecare linie (instrucțiune) din cod a fost executată cel puțin o dată în timpul testelor. Scopul este de a asigura că toate porțiunile codului sunt testate pentru a detecta eventualele erori. Aceasta este o metodă de testare white-box și oferă o măsură a acoperirii codului.
+
+| accountId | amount | description       | spend % | instructions covered                                                      |
+| --------- | ------ | ----------------- | ------- | ------------------------------------------------------------------------- |
+| 404       | 100    | Invalid id        | -       | 1, 2..3, 42                                                               |
+| 1         | -1     | Negative amount   | 90%     | 1, 4..5, 6, 7..8                                                          |
+| 1         | 100    | SAVE THE EXTRA    | 90%     | 1, 4..5, 6, 9..15, 16, 17..19, 20, 21, 22..27, 28..30, 31, 34..40, 41, 42 |
+| 1         | 100    | No saving         | 90%     | 1, 4..5, 6, 9..15, 16, 17..19, 20, 21, 22..27, 28..30, 31, 32..33, 41, 42 |
+
+### (b) Decision coverage
+
+Decision coverage testing, cunoscut și ca branch coverage, este o metodă de testare care verifică dacă toate deciziile logice (ramuri „true” și „false”) din cod sunt evaluate cel puțin o dată. Este mai cuprinzătoare decât statement coverage, deoarece se asigură că fiecare cale de decizie este testată. Această tehnică ajută la identificarea erorilor în logica condițională a programului.
+
+### Decizii:
+- (1) `if (!spendingAccounts.containsKey(accountId))`
+- (2) `if (amount <= 0)`
+- (3) `for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())`
+- (4) `for (Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet())`
+- (5) `if (totalPercentage > 100 - EPS || !hasSaveFlag)`
+
+| accountId | amount | description       | spend % | (1) | (2) | (3) | (4) | (5) |
+| --------- | ------ | ----------------- | ------- | --- | --- | --- | --- | --- |
+| 404       | 100    | Invalid id        | -       |  T  |  -  |  -  |  -  |  -  |
+| 1         | -1     | Negative amount   | 90%     |  F  |  T  |  -  |  -  |  -  |
+| 1         | 100    | No saving         | 90%     |  F  |  F  |  T  |  T  |  T  |
+| 2         | 100    | SAVE              | 0%      |  F  |  F  |  F  |  F  |  F  |
+
+### (c) Condition coverage
+
+Condition coverage testing este o tehnică de testare care verifică dacă fiecare condiție booleană dintr-o expresie decizională a fost evaluată atât la „true”, cât și la „false”. Spre deosebire de decision coverage, care analizează rezultatul final al deciziei, condition coverage se concentrează pe fiecare sub-condiție individuală. Aceasta oferă un nivel mai detaliat de acoperire logică în testare.
+
+### Condiții
+- (c1) `!spendingAccounts.containsKey(accountId)`
+- (c2) `amount <= 0`
+- (c3) `Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()`
+- (c4) `Map.Entry<String, AbstractMap.SimpleEntry<Double, Double>> entry : spendingMap.entrySet()`
+- (c5) `totalPercentage > 100 - EPS`
+- (c6) `!hasSaveFlag`
+
+| accountId | amount | description       | spend % | c1 | c2 | c3 | c4 | c5 | c6 |
+| --------- | ------ | ----------------- | ------- | -- | -- | -- | -- | -- | -- |
+| 404       | 100    | Invalid id        | -       | T  | -  | -  | -  | -  | -  |
+| 1         | -1     | Negative amount   | 90%     | F  | T  | -  | -  | -  | -  |
+| 1         | 100    | No saving         | 90%     | F  | T  | T  | T  | F  | T  |
+| 2         | 100    | SAVE              | 0%      | F  | F  | F  | F  | F  | F  |
+| 2         | 100    | No saving         | 100%    | F  | T  | T  | T  | T  | T  |
+| 2         | 100    | SAVE              | 100%    | F  | T  | T  | T  | T  | F  |
+
+### (g) Independent circuit testing
+
+Independent circuit testing (sau independent path testing) este o tehnică de testare white-box care urmărește să identifice și să testeze toate căile independente prin codul sursă. O cale este considerată independentă dacă adaugă cel puțin o ramură nouă față de celelalte căi deja analizate. Scopul este de a maximiza acoperirea logică și de a detecta erori în structurile de control complexe.
+
+**Informațiile grafului:**
+- `n = 17`
+- `e = 22`
+- `V(G) = 6`
+
+### Circuite
+
+- (1) `1, 2..3, 42, 1`
+- (2) `1, 4..5, 6, 7..8, 42, 1`
+- (3) `16, 17..19, 16`
+- (4) `21, 22..27, 21`
+- (5) `1, 4..5, 6, 9-15, 16, 20, 21, 28..30, 31, 32..33, 41, 42, 1`
+- (6) `1, 4..5, 6, 9-15, 16, 20, 21, 28..30, 31, 34..40, 41, 42, 1`
+  
+| accountId | amount | description       | spend % | circuite acoperite |
+| --------- | ------ | ----------------- | ------- | ------------------ |
+| 404       | 100    | Invalid id        | -       | (1)                |
+| 1         | -1     | Negative amount   | 90%     | (2)                |
+| 1         | 100    | No saving         | 90%     | (3), (4)           |
+| 2         | 100    | SAVE              | 0%      | (6)                |
+| 2         | 100    | No saving         | 0%      | (5)                |
 
 ## Mutation Testing
 
