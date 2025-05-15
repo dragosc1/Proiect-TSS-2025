@@ -341,7 +341,7 @@ public class BankAccountDistributorTest {
     //    instructions covered -> 1, 4..5, 6, 9..15, 16, 17..19, 20, 21, 22..27, 28..30, 31, 32..33, 41, 42
 
     @Test
-    public void StatementCoverageTest() {
+    public void StructuralTesting_A_StatementCoverage() {
         int start = log.getLog().length();
         distributor.distributeMoney(404, 100, "Invalid id");
         String out1 = log.getLog().substring(start);
@@ -372,12 +372,12 @@ public class BankAccountDistributorTest {
     //    (5) if (totalPercentage > 100 - EPS || !hasSaveFlag)
     //
     // accountId |  amount  |   description     | spend % | (1) | (2) | (3) | (4) | (5)
-    //     404   |   100    |   "Invalid id"    |   90%   |  T  |  -  |  -  |  -  |  -
+    //     404   |   100    |   "Invalid id"    |    -    |  T  |  -  |  -  |  -  |  -
     //      1    |   -1     | "Negative amount" |   90%   |  F  |  T  |  -  |  -  |  -
     //      1    |   100    |    "No saving"    |   90%   |  F  |  F  |  T  |  T  |  T
     //      2    |   100    |       "SAVE"      |    0%   |  F  |  F  |  F  |  F  |  F
     @Test
-    public void DecisionCoverageTest() {
+    public void StructuralTesting_B_DecisionCoverage() {
         int start = log.getLog().length();
         distributor.distributeMoney(404, 100, "Invalid id");
         String out1 = log.getLog().substring(start);
@@ -419,7 +419,7 @@ public class BankAccountDistributorTest {
     //    c6: !hasSaveFlag
     //
     // accountId |  amount  |   description     | spend % | c1 | c2 | c3 | c4 | c5 | c6
-    //     404   |   100    |   "Invalid id"    |   90%   | T  | -  | -  | -  | -  | -
+    //     404   |   100    |   "Invalid id"    |    -    | T  | -  | -  | -  | -  | -
     //      1    |   -1     | "Negative amount" |   90%   | F  | T  | -  | -  | -  | -
     //      1    |   100    |    "No saving"    |   90%   | F  | T  | T  | T  | F  | T
     //      2    |   100    |       "SAVE"      |    0%   | F  | F  | F  | F  | F  | F
@@ -427,7 +427,7 @@ public class BankAccountDistributorTest {
     //      2    |   100    |       "SAVE"      |   100%  | F  | T  | T  | T  | T  | F
 
     @Test
-    public void ConditionCoverageTest() {
+    public void StructuralTesting_C_ConditionCoverage() {
         int start = log.getLog().length();
         distributor.distributeMoney(404, 100, "Invalid id");
         String out1 = log.getLog().substring(start);
@@ -443,7 +443,7 @@ public class BankAccountDistributorTest {
         String out3 = log.getLog().substring(start);
         assertTrue(out3.contains("No savings for account 1"));
 
-        //Add a new user with id = 2 for the test with no categories for condition (2) and (3)
+        //Add a new user with id = 2
         distributor.addUser(2);
         double prev_SAVE = distributor.getSavingsForAccount(2);
         distributor.distributeMoney(2, 100.0, "SAVE");
@@ -464,7 +464,7 @@ public class BankAccountDistributorTest {
         assertTrue(out5.contains("No savings for account 2"));
     }
 
-    //Circuit testing
+    //Independent Circuit testing
     //n = 17
     //e = 22
     //V(G) = 6
@@ -477,14 +477,14 @@ public class BankAccountDistributorTest {
     //    (6) 1, 4..5, 6, 9-15, 16, 20, 21, 28..30, 31, 34..40, 41, 42, 1
     //
     // accountId |  amount  |   description     | spend % | circuits covered
-    //     404   |   100    |   "Invalid id"    |   90%   | (1)
+    //     404   |   100    |   "Invalid id"    |    -    | (1)
     //      1    |   -1     | "Negative amount" |   90%   | (2)
     //      1    |   100    |    "No saving"    |   90%   | (3), (4)
     //      2    |   100    |       "SAVE"      |    0%   | (6)
     //      2    |   100    |    "No saving"    |    0%   | (5)
 
     @Test
-    public void CircuitCoverageTest() {
+    public void StructuralTesting_G_IndependentCircuits() {
         int start = log.getLog().length();
         distributor.distributeMoney(404, 100, "Invalid id");
         String out1 = log.getLog().substring(start);
@@ -500,7 +500,7 @@ public class BankAccountDistributorTest {
         String out3 = log.getLog().substring(start);
         assertTrue(out3.contains("No savings for account 1"));
 
-        //Add a new user with id = 2 for the test with no categories for condition (2) and (3)
+        //Add a new user with id = 2
         distributor.addUser(2);
         double prev_SAVE = distributor.getSavingsForAccount(2);
         distributor.distributeMoney(2, 100.0, "SAVE");
