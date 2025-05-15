@@ -249,10 +249,10 @@ Condition coverage testing este o tehnică de testare care verifică dacă fieca
 | --------- | ------ | ----------------- | ------- | -- | -- | -- | -- | -- | -- |
 | 404       | 100    | Invalid id        | -       | T  | -  | -  | -  | -  | -  |
 | 1         | -1     | Negative amount   | 90%     | F  | T  | -  | -  | -  | -  |
-| 1         | 100    | No saving         | 90%     | F  | T  | T  | T  | F  | T  |
+| 1         | 100    | No saving         | 90%     | F  | F  | T  | T  | F  | T  |
 | 2         | 100    | SAVE              | 0%      | F  | F  | F  | F  | F  | F  |
-| 2         | 100    | No saving         | 100%    | F  | T  | T  | T  | T  | T  |
-| 2         | 100    | SAVE              | 100%    | F  | T  | T  | T  | T  | F  |
+| 2         | 100    | No saving         | 100%    | F  | F  | T  | T  | T  | T  |
+| 2         | 100    | SAVE              | 100%    | F  | F  | T  | T  | T  | F  |
 
 ### (g) Independent circuit testing
 
