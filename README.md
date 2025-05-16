@@ -303,3 +303,69 @@ Toate metodele, liniile de cod și ramurile condiționale au fost acoperite de t
 
 ![image](https://github.com/user-attachments/assets/fb6ac978-f360-4e06-ac8c-b2de041ef6b9)
 
+## Generare teste folosind AI
+
+Ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0) pentru a gernera teste.
+
+```java
+    public void FunctionalTesting_Transfer_GPT_equivalencePartitioning() {
+        // (i1, _, _, _)
+        int start = log.getLog().length();
+        distributor.distributeMoney(999, 50.0, "any");
+        String out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Account 999 does not exist"));
+
+        // (i2, a1, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -10.0, "neg");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a2, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 0.0, "zero");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a3, p1, s1)
+        double before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly SAVE");
+        double after = distributor.getSavingsForAccount(1);
+        assertTrue(after > before);
+
+        // (i2, a3, p1, s2)
+        before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly");
+        after = distributor.getSavingsForAccount(1);
+        assertEquals(before, after, 1e-6);
+
+        // bring total percentage to exactly 100% (ChatGPT is wrong)
+        // distributor.addSpendingAccount(1, "Extra", 0.0, 10.0);
+        // now totalPct = 100
+        // start = log.getLog().length();
+        // distributor.distributeMoney(1, 200.0, "Full SAVE");
+        // out = log.getLog().substring(start);
+        // assertTrue(out.contains("No savings for account 1"));
+        // also savings unchanged
+        // assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
+    }
+```
+
+Testul este, în procent mare, corect structurat și acoperă cazuri relevante din perspectiva partajării în clase de echivalență (equivalence partitioning). Sunt verificate:
+* cazuri de input invalid
+* scenarii valide cu distribuție către contul de economii în funcție de prezența cuvântului  cheie `"SAVE"`
+* caz pozitiv fără activarea economisirii.
+
+Totuși, ultima secțiune a testului conține o aserțiune incorectă.
+```java
+ bring total percentage to exactly 100% (ChatGPT is wrong)
+ distributor.addSpendingAccount(1, "Extra", 0.0, 10.0);
+// now totalPct = 100
+ start = log.getLog().length();
+ distributor.distributeMoney(1, 200.0, "Full SAVE");
+ out = log.getLog().substring(start);
+ assertTrue(out.contains("No savings for account 1"));
+// also savings unchanged
+ assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
+```
+chiar dacă în prompt nu i-a fost cerut să refacă setup-ul. Acest lucru duce la propagarea unui test invalid, deoarece presupunerile despre starea sistemului (precum procentajul total de cheltuieli) nu mai reflectă contextul real al testului.

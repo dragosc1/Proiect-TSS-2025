@@ -93,6 +93,50 @@ public class BankAccountDistributorTest {
         assertTrue(out4.contains("No savings for account 2"));
     }
 
+    // chatGPT (https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0)
+    @Test
+    public void FunctionalTesting_Transfer_GPT_equivalencePartitioning() {
+        // (i1, _, _, _)
+        int start = log.getLog().length();
+        distributor.distributeMoney(999, 50.0, "any");
+        String out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Account 999 does not exist"));
+
+        // (i2, a1, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -10.0, "neg");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a2, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 0.0, "zero");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a3, p1, s1)
+        double before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly SAVE");
+        double after = distributor.getSavingsForAccount(1);
+        assertTrue(after > before);
+
+        // (i2, a3, p1, s2)
+        before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly");
+        after = distributor.getSavingsForAccount(1);
+        assertEquals(before, after, 1e-6);
+
+        // bring total percentage to exactly 100% (ChatGPT is wrong)
+        // distributor.addSpendingAccount(1, "Extra", 0.0, 10.0);
+        // now totalPct = 100
+        // start = log.getLog().length();
+        // distributor.distributeMoney(1, 200.0, "Full SAVE");
+        // out = log.getLog().substring(start);
+        // assertTrue(out.contains("No savings for account 1"));
+        // also savings unchanged
+        // assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
+    }
+
     // b) Boundary values analysis
     /*
      *  i  – account existence
