@@ -43,8 +43,8 @@ public class BankAccountDistributorTest {
      *      i2  { i | account exists }
      *
      *  a  – amount value
-     *      a1  < 0          (negative amount)
-     *      a2  > 0          (positive amount)
+     *      a1  <= 0        (negative or zero amount)
+     *      a2  > 0         (positive amount)
      *
      *  p  – sum of percentages
      *      p1  1…99%     (spending<100%)
@@ -371,7 +371,7 @@ public class BankAccountDistributorTest {
         }
     }
 
-    // Mutation Testing Killing Println
+//     Mutation Testing Killing Println
     @Test
     public void MutationTesting_1_testDistributeMoneyPrintMessage() {
         distributor.distributeMoney(1, 120.0, "Mutation testing");
