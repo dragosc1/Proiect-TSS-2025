@@ -36,8 +36,6 @@ Un exemplu concret este <b>Apache Commons Lang.</b> Acest proiect open source, p
 
 * JaCoCo pentru măsurarea acoperirii codului de către teste,
 
-* și, în unele cazuri, PIT pentru mutation testing, evaluând astfel eficacitatea suitei de teste.
-
 Avantaje
 
 * Testare Eficientă și Ușor de Implementat:
@@ -45,9 +43,6 @@ JUnit oferă un cadru robust pentru scrierea și rularea testelor unitare, simpl
 
 * Evaluarea Calității Codului:
 JaCoCo oferă rapoarte detaliate privind acoperirea codului, ajutând la identificarea zonelor care necesită teste suplimentare.
-
-* Calitatea Suitei de Teste:
-PIT, prin mutation testing, permite evaluarea eficienței testelor, identificând eventualele lacune prin simularea unor defecte minore în cod.
 
 * Comunitate și Suport:
 Aceste instrumente sunt bine-cunoscute și folosite pe scară largă în ecosistemul Java.
