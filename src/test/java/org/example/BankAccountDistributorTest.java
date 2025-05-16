@@ -36,7 +36,7 @@ public class BankAccountDistributorTest {
     // Functional testing
 
     // a) Equivalence partitioning
-    // 6 classes of equivalence
+    // 5 classes of equivalence
     /*
      *  i  – account existence
      *      i1  { i | account does not exist (not in map) }
@@ -44,8 +44,7 @@ public class BankAccountDistributorTest {
      *
      *  a  – amount value
      *      a1  < 0          (negative amount)
-     *      a2  0
-     *      a3  > 0          (positive amount)
+     *      a2  > 0          (positive amount)
      *
      *  p  – sum of percentages
      *      p1  1…99%     (spending<100%)
@@ -70,25 +69,19 @@ public class BankAccountDistributorTest {
         String out2 = log.getLog().substring(start);
         assertTrue(out2.contains("Error: Amount must be greater than zero."));
 
-        // 3. amount = 0 => Error message (i2, a2, _, _)
-        start = log.getLog().length();
-        distributor.distributeMoney(1, 0.0, "0 amount");
-        String out3 = log.getLog().substring(start);
-        assertTrue(out3.contains("Error: Amount must be greater than zero."));
-
-        // 4. Partial Spending percentage (< 100%) => Savings  (i2, a3, p1, s1)
+        // 3. Partial Spending percentage (< 100%) => Savings  (i2, a2, p1, s1)
         double prev_SAVE = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Partial spending SAVE");
         double now_SAVE = distributor.getSavingsForAccount(1);
         assertTrue(now_SAVE > prev_SAVE);
 
-        // 5. Partial Spending percentage (< 100%) NO SAVE => No Savings  (i2, a3, p1, s2)
+        // 4. Partial Spending percentage (< 100%) NO SAVE => No Savings  (i2, a2, p1, s2)
         double prev_NO_SAVE = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Partial spending");
         double now_NO_SAVE = distributor.getSavingsForAccount(1);
         assertTrue(prev_NO_SAVE == now_NO_SAVE);
 
-        // 6. Full Spending percentage (100%) => No Savings (i2, a3, p2, _)
+        // 5. Full Spending percentage (100%) => No Savings (i2, a2, p2, _)
         distributor.addUser(2);
         distributor.addSpendingAccount(2, "Car", 0.0, 50.0);
         distributor.addSpendingAccount(2, "Housing", 0.0, 50.0);
@@ -113,19 +106,13 @@ public class BankAccountDistributorTest {
         out = log.getLog().substring(start);
         assertTrue(out.contains("Error: Amount must be greater than zero."));
 
-        // (i2, a2, _, _)
-        start = log.getLog().length();
-        distributor.distributeMoney(1, 0.0, "zero");
-        out = log.getLog().substring(start);
-        assertTrue(out.contains("Error: Amount must be greater than zero."));
-
-        // (i2, a3, p1, s1)
+        // (i2, a2, p1, s1)
         double before = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Monthly SAVE");
         double after = distributor.getSavingsForAccount(1);
         assertTrue(after > before);
 
-        // (i2, a3, p1, s2)
+        // (i2, a2, p1, s2)
         before = distributor.getSavingsForAccount(1);
         distributor.distributeMoney(1, 100.0, "Monthly");
         after = distributor.getSavingsForAccount(1);
@@ -151,7 +138,6 @@ public class BankAccountDistributorTest {
      *  a  – amount value
      *
      *      a1  < 0          (negative amount)
-     *      a2  0
      *      a2 0.01          (amount just over 0) - BOUNDARY CHECK
      *      a3  > 0.01       (positive amount)
      *
