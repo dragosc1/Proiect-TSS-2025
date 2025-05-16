@@ -388,6 +388,24 @@ Totuși, ultima secțiune a testului conține o aserțiune incorectă.
 // also savings unchanged
  assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
 ```
+
+```
+Error: Account 999 does not exist
+Error: Amount must be greater than zero.
+Error: Amount must be greater than zero.
+Distributing $100.0 for account 1 [Monthly SAVE]
+Remaining money of $10.0 added to savings account for account 1
+Distributing $100.0 for account 1 [Monthly]
+No savings for account 1
+Distributing $200.0 for account 1 [Full SAVE]
+No savings for account 1
+
+java.lang.AssertionError: 
+Expected :100.0
+Actual   :110.0
+```
+
+
 chiar dacă în prompt nu i-a fost cerut să refacă setup-ul. Acest lucru duce la propagarea unui test invalid, deoarece presupunerile despre starea sistemului (precum procentajul total de cheltuieli) nu mai reflectă contextul real al testului.
 
 A doua generare de functional testing cu [chatGPT](https://chatgpt.com/share/68274117-1c34-8010-bcf8-66d03101bb2d):
@@ -442,7 +460,7 @@ A doua generare de functional testing cu [chatGPT](https://chatgpt.com/share/682
 }
 ```
 
-Problema majoră este că fiecare test generat în acest mod de ChatGPT este, în esență, incorect. Modelul nu a reușit să înțeleagă mecanismul intern al distribuției (de exemplu, cum se determină dacă se face economisire în funcție de suma totală alocată conturilor de cheltuieli), iar în unele cazuri a presupus în mod greșit că lipsa economisirii este o eroare, atunci când în realitate este un comportament valid dacă suma alocată este exact 100%.
+Deși testele generate de ChatGPT sunt, în general, corect structurate din punct de vedere sintactic și acoperă cazuri relevante, problema principală nu ține de formă, ci de lipsa înțelegerii mecanismului intern al distribuției. Modelul nu reușește să interpreteze corect logica aplicației—în special modul în care funcționează salvarea banilor în funcție de procentele alocate conturilor de cheltuieli.
 
 Această lipsă de înțelegere profundă a structurii aplicației și a logicii implicite a dus la propagarea unor teste greșite și, mai grav, la concluzii false privind comportamentul corect al sistemului. Practic, ChatGPT a tratat codul ca pe un text generic, fără a-i înțelege semantica și interdependențele dintre componentele API-ului.
 
