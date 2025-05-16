@@ -196,6 +196,7 @@ public class BankAccountDistributorTest {
     }
 
     @Test
+    // chatGPT (https://chatgpt.com/share/68274117-1c34-8010-bcf8-66d03101bb2d)
     public void FunctionalTesting_Transfer_GPT2_equivalencePartitioning() {
 //        distributor.distributeMoney(99, 100.0, "Test");
 //        assertTrue(outContent.toString().contains("Error: Account 99 does not exist"));
