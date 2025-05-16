@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,9 @@ import static org.junit.Assert.*;
 public class BankAccountDistributorTest {
 
     private BankAccountDistributor distributor;
+//    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+//    private final PrintStream originalOut = System.out;
+
 
     @Rule
     public final SystemOutRule log = new SystemOutRule().enableLog();
@@ -93,6 +98,50 @@ public class BankAccountDistributorTest {
         assertTrue(out4.contains("No savings for account 2"));
     }
 
+    // chatGPT (https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0)
+    @Test
+    public void FunctionalTesting_Transfer_GPT_equivalencePartitioning() {
+        // (i1, _, _, _)
+        int start = log.getLog().length();
+        distributor.distributeMoney(999, 50.0, "any");
+        String out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Account 999 does not exist"));
+
+        // (i2, a1, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, -10.0, "neg");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a2, _, _)
+        start = log.getLog().length();
+        distributor.distributeMoney(1, 0.0, "zero");
+        out = log.getLog().substring(start);
+        assertTrue(out.contains("Error: Amount must be greater than zero."));
+
+        // (i2, a3, p1, s1)
+        double before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly SAVE");
+        double after = distributor.getSavingsForAccount(1);
+        assertTrue(after > before);
+
+        // (i2, a3, p1, s2)
+        before = distributor.getSavingsForAccount(1);
+        distributor.distributeMoney(1, 100.0, "Monthly");
+        after = distributor.getSavingsForAccount(1);
+        assertEquals(before, after, 1e-6);
+
+        // bring total percentage to exactly 100% (ChatGPT is wrong)
+        // distributor.addSpendingAccount(1, "Extra", 0.0, 10.0);
+        // now totalPct = 100
+        // start = log.getLog().length();
+        // distributor.distributeMoney(1, 200.0, "Full SAVE");
+        // out = log.getLog().substring(start);
+        // assertTrue(out.contains("No savings for account 1"));
+        // also savings unchanged
+        // assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
+    }
+
     // b) Boundary values analysis
     /*
      *  i  – account existence
@@ -144,6 +193,55 @@ public class BankAccountDistributorTest {
         distributor.distributeMoney(1, 0.01, "smallest positive amount SAVE");
         double savingsAfter = distributor.getSavingsForAccount(1);
         assertTrue("Savings should increase", savingsAfter > savingsBefore);
+    }
+
+    @Test
+    public void FunctionalTesting_Transfer_GPT2_equivalencePartitioning() {
+//        distributor.distributeMoney(99, 100.0, "Test");
+//        assertTrue(outContent.toString().contains("Error: Account 99 does not exist"));
+//
+//        distributor.addUser(1);
+//        distributor.distributeMoney(1, -10.0, "Test");
+//        assertTrue(outContent.toString().contains("Error: Amount must be greater than zero."));
+//
+//        distributor.addUser(1);
+//        distributor.distributeMoney(1, 0.0, "Test");
+//        assertTrue(outContent.toString().contains("Error: Amount must be greater than zero."));
+//
+//        distributor.addUser(1);
+//        distributor.distributeMoney(1, 0.01, "monthly SAVE");
+//        assertTrue(outContent.toString().contains("Remaining money of $0.01 added to savings"));
+//        assertEquals(0.01, distributor.getSavingsForAccount(1), 1e-6);
+//
+//        distributor.addUser(2);
+//        distributor.distributeMoney(2, 50.0, "no savings");
+//        assertTrue(outContent.toString().contains("No savings for account 2"));
+//        assertEquals(0.0, distributor.getSavingsForAccount(2), 1e-6);
+//
+//        // default setup: p=90% (40+30+20), a3
+//        distributor.addUser(1);
+//        distributor.addSpendingAccount(1, "Rent", 0.0, 40.0);
+//        distributor.addSpendingAccount(1, "Food", 0.0, 30.0);
+//        distributor.addSpendingAccount(1, "Entertainment", 0.0, 20.0);
+//        distributor.distributeMoney(1, 100.0, "AUTO SAVE");
+//        // remaining 10% -> 10.0
+//        assertEquals(10.0, distributor.getSavingsForAccount(1), 1e-6);
+//
+//        // p2: 99%
+//        distributor.addUser(3);
+//        distributor.addSpendingAccount(3, "A", 0.0, 99.0);
+//        distributor.distributeMoney(3, 200.0, "SAVE now");
+//        // remaining 1% -> 2.0
+//        assertEquals(2.0, distributor.getSavingsForAccount(3), 1e-6);
+//
+//        // p2: 100%
+//        distributor.addUser(4);
+//        distributor.addSpendingAccount(4, "A", 0.0, 50.0);
+//        distributor.addSpendingAccount(4, "B", 0.0, 50.0);
+//        distributor.distributeMoney(4, 80.0, "SAVE everything");
+//        // no remaining -> savings unchanged
+//        assertEquals(0.0, distributor.getSavingsForAccount(4), 1e-6);
+//        assertTrue(outContent.toString().contains("No savings for account 4"));
     }
 
     enum Outcome { ACCOUNT_ERR, AMOUNT_ERR, PERCENT_ERR, ALL_SAVED, PARTIAL_SAVED, NO_SAVED }
