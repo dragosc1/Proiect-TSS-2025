@@ -117,8 +117,7 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 | `i`       | `i1`  | Contul **nu există** în sistemul bancar|
 |           | `i2`  | Contul **există** în sistemul bancar   |
 | `a`       | `a1`  | Suma distribuită este **negativă**     |
-|           | `a2`  | Suma distribuită este **zero**         |
-|           | `a3`  | Suma distribuită este **pozitivă**     |
+|           | `a2`  | Suma distribuită este **pozitivă**     |
 | `p`       | `p1`  | Procentele însumează **sub 100%**      |
 |           | `p2`  | Procentele însumează **exact 100%**    |
 |           | `p3`  | Procentele **peste 100%** – caz exclus |
@@ -130,11 +129,10 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 | Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                         |
 | ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------- |
 | 1    | i1 – nu există     | -        | -                | -           | Eroare: contul nu există        |
-| 2    | i2 – există        | a1 < 0 | -                  | -           | Eroare: sumă negativă           |
-| 3    | i2 – există        | a2 = 0   | -                | -           | Eroare: sumă zero               |
-| 4    | i2 – există        | a3 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
-| 5    | i2 – există        | a3 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
-| 6    | i2 – există        | a3 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
+| 2    | i2 – există        | a1 < 0   | -                | -           | Eroare: sumă negativă           |
+| 3    | i2 – există        | a2 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
+| 4    | i2 – există        | a2 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
+| 5    | i2 – există        | a2 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
 
 ### Analiză valori de frontieră
 
