@@ -324,6 +324,8 @@ Toate metodele, liniile de cod și ramurile condiționale au fost acoperite de t
 
 ## Generare teste folosind AI
 
+Am ales **ChatGPT** pentru generarea testelor deoarece oferă soluții clare, precise și adaptate contextului codului nostru. Este un asistent rapid și flexibil, care ne ajută să creăm teste funcționale eficiente cu minim efort manual.
+
 Ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0) pentru a gernera teste.
 
 ```java
