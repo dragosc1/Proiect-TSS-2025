@@ -388,6 +388,11 @@ Totuși, ultima secțiune a testului conține o aserțiune incorectă, datorată
 // also savings unchanged
  assertEquals(100.0, distributor.getSavingsForAccount(1), 1e-4);
 ```
+`setUp`-ul original:
+![image](https://github.com/user-attachments/assets/38bb92a0-5cd9-41b4-9457-8640537866c8)
+
+`setUp`-ul regenerat de model:
+![image](https://github.com/user-attachments/assets/b67c56b8-57d1-409c-b056-0f6b6580fd9c)
 
 ```
 Error: Account 999 does not exist
