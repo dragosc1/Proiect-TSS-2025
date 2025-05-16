@@ -326,7 +326,7 @@ Toate metodele, liniile de cod și ramurile condiționale au fost acoperite de t
 
 Am ales **ChatGPT** pentru generarea testelor deoarece oferă soluții clare, precise și adaptate contextului codului nostru. Este un asistent rapid și flexibil, care ne ajută să creăm teste funcționale eficiente cu minim efort manual.
 
-Ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0) pentru a gernera teste.
+Asfel ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c455f0b6c0) pentru a gernera functional test. Prima generare:
 
 ```java
     public void FunctionalTesting_Transfer_GPT_equivalencePartitioning() {
@@ -372,12 +372,12 @@ Ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c
     }
 ```
 
-Testul este, în procent mare, corect structurat și acoperă cazuri relevante din perspectiva partajării în clase de echivalență. Sunt verificate:
+Testele sunt, în procent mare, corect structurate și acoperă cazuri relevante din perspectiva partajării în clase de echivalență. Sunt verificate:
 * cazuri de input invalid
 * scenarii valide cu distribuție către contul de economii în funcție de prezența cuvântului cheie `"SAVE"`
 * caz pozitiv fără activarea economisirii.
 
-Logica de testare este bine corelată cu starea internă a obiectului distributor, iar verificările se bazează pe `setUp`-ul mentionat in `prompt`. Nu există erori în testare.
+Logica de testare este bine corelată cu starea internă a obiectului `distributor`, iar verificările se bazează pe `setUp`-ul mentionat in `prompt`. Nu există erori în testare.
 
 A doua generare de functional testing cu [chatGPT](https://chatgpt.com/share/68274117-1c34-8010-bcf8-66d03101bb2d):
 
