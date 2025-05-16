@@ -91,6 +91,10 @@ Rapoartele generate de JaCoCo pot fi detaliate și necesită o analiză atentă 
 * **Sistem**: Apple Mac cu cip M2
 * **Sistem de operare**: macOS (ultima versiune disponibilă la momentul utilizării)
 
+## Clasa `BankAccountDistributor` - program Java
+
+BankAccountDistributor te ajută să-ți ții bugetul în ordine: pentru fiecare utilizator poți defini categorii de cheltuieli (de ex. "Chirie”, "Mâncare”, "Excursie", "Concert"), indicând ce procent din venit vrei să ajungă în fiecare. Când intră bani, metoda `distributeMoney` împarte suma automat după aceste procente, iar dacă mesajul tranzacției conține cuvântul SAVE și procentele nu însumează 100 %, restul se mută direct în contul de economii. În plus, ai metode simple pentru a adăuga utilizatori, pentru a mai deschide o categorie sau pentru a verifica cât ai economisit.
+
 ## Testare funcție - `distributeMoney`
 
 Funcția distributeMoney distribuie o sumă de bani (amount) către diferite categorii de cheltuieli asociate unui cont (accountId), conform procentelor stabilite. Dacă în descriere este inclus cuvântul „SAVE” și procentele de distribuție însumate sunt sub 100%, diferența rămasă este adăugată automat în contul de economii. Funcția verifică validitatea contului și a sumei, afișând mesaje corespunzătoare în caz de eroare sau la finalul distribuției.
