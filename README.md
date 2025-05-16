@@ -319,8 +319,26 @@ Toate metodele, liniile de cod și ramurile condiționale au fost acoperite de t
 * **Acoperire linii:** 100% (44 din 44)
 * **Acoperire ramuri (branch):** 100% (22 din 22)
 
+<img width="504" alt="image" src="https://github.com/user-attachments/assets/969955a6-265f-496d-9189-872bbdd9fc53" />
 
-![image](https://github.com/user-attachments/assets/fb6ac978-f360-4e06-ac8c-b2de041ef6b9)
+### Code Coverage
+
+| Package        | Instructions (Missed/Total) | Coverage | Branches (Missed/Total) | Coverage | Complexity (Missed) | Lines (Missed) | Methods (Missed) | Classes (Missed) |
+| -------------- | --------------------------- | -------- | ----------------------- | -------- | ------------------- | -------------- | ---------------- | ---------------- |
+| **Total**      | 0 / 314                     | 100 %    | 0 / 22                  | 100 %    | 0                   | 0              | 0                | 0                |
+| **org.example**| 0 / 314                     | 100 %    | 0 / 22                  | 100 %    | 0                   | 0              | 0                | 0                |
+
+
+## Pit Run & Analysis
+
+Rulare PiT fără eliminarea mutanților
+<img width="827" alt="image" src="https://github.com/user-attachments/assets/f7f1af7e-e92d-455a-b996-42d855934dc8" />
+
+Rulare PiT cu eliminarea mutanților
+<img width="827" alt="image" src="https://github.com/user-attachments/assets/df0d636d-3a9e-4545-9b9f-802aa27ead63" />
+
+
+
 
 ## Generare teste folosind AI
 
