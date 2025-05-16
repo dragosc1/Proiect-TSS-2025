@@ -173,30 +173,52 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 |                                 | `p2`        | `1…99%` – cheltuieli parțiale                           |
 |                                 | `p3`        | `100%` – toți banii sunt alocați                        |
 |                                 | `p4`        | `>100%` – peste capacitatea de distribuție (caz exclus) |
-| `c` – nr. conturi de cheltuieli | `c1`        | `0` conturi – cont doar pentru economii                 |
-|                                 | `c2`        | `1` cont de cheltuieli                                  |
-|                                 | `c3`        | `2…n` conturi (cel puțin două)                          |
 | `s` – descriere                 | `s1`        | Descrierea **conține** cuvântul `"SAVE"`                |
 |                                 | `s2`        | Descrierea **nu conține** `"SAVE"`                      |
 
-### Tabel de decizie – `distributeMoney`
-|       | Cat1 | Cat2 | Cat3 | Cat4 | Cat5 | Cat6 | Cat7 | Cat8 | Cat9 | Cat10 | Cat11 | Cat12 | Cat13 | Cat14 | Cat15 | Cat16 | Cat17 | Cat18 | Cat19 | Cat20 |
-|:-----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-| **C1**<br/>(existing account)     | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **C2**<br/>(amount > 0)           | 1    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **C3**<br/>(total% > 100−EPS)     | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **C4**<br/>(“SAVE” description)   | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 1     | 0     | 1     | 0     | 1     | 0     |
-| **E1**<br/>(ACCOUNT_ERR)          | 1    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
-| **E2**<br/>(AMOUNT_ERR)           | 0    | 1    | 1    | 0    | 0    | 0    | 0    | 0    | 0    | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
-| **E3**<br/>(“Distributing…”)      | 0    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **E4**<br/>(“No savings…”)        | 0    | 0    | 0    | 0    | 1    | 0    | 0    | 1    | 0    | 1     | 0     | 1     | 0     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **E5**<br/>(“Remaining money…”)   | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
-| **E6**<br/>(update spending)      | 0    | 0    | 0    | 1    | 1    | 1    | 1    | 1    | 1    | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     | 1     |
-| **E7**<br/>(update savings)       | 0    | 0    | 0    | 1    | 0    | 1    | 1    | 0    | 1    | 0     | 1     | 0     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     |
+### Tabel cazuri Category Partitioning (notații din cod)
+| Case   | i  | a  | p  | s  | Rezultat         |
+| ------ | -- | -- | -- | -- | ---------------- |
+| Cat 1  | i1 | a4 | p1 | s2 | `ACCOUNT_ERR`    |
+| Cat 2  | i2 | a1 | p1 | s2 | `AMOUNT_ERR`     |
+| Cat 3  | i2 | a2 | p1 | s2 | `AMOUNT_ERR`     |
+| Cat 4  | i2 | a3 | p1 | s1 | `ALL_SAVED`      |
+| Cat 5  | i2 | a4 | p1 | s2 | `NO_SAVED`       |
+| Cat 6  | i2 | a4 | p1 | s1 | `ALL_SAVED`      |
+| Cat 7  | i2 | a5 | p1 | s1 | `ALL_SAVED`      |
+| Cat 8  | i2 | a3 | p2 | s2 | `NO_SAVED`       |
+| Cat 9  | i2 | a3 | p2 | s1 | `PARTIAL_SAVED`  |
+| Cat 10 | i2 | a4 | p2 | s2 | `NO_SAVED`       |
+| Cat 11 | i2 | a4 | p2 | s1 | `PARTIAL_SAVED`  |
+| Cat 12 | i2 | a5 | p2 | s2 | `NO_SAVED`       |
+| Cat 13 | i2 | a5 | p2 | s1 | `PARTIAL_SAVED`  |
+| Cat 14 | i2 | a3 | p3 | s2 | `NO_SAVED`       |
+| Cat 15 | i2 | a3 | p3 | s1 | `NO_SAVED`       |
+| Cat 16 | i2 | a4 | p3 | s2 | `NO_SAVED`       |
+| Cat 17 | i2 | a4 | p3 | s1 | `NO_SAVED`       |
+| Cat 18 | i2 | a3 | p4 | s2 | `PERCENT_ERR`    |
+| Cat 19 | i2 | a4 | p4 | s1 | `PERCENT_ERR`    |
+| Cat 20 | i2 | a5 | p4 | s2 | `PERCENT_ERR`    |
 
 
 #### Cause Effect Graph
 ![photo](https://github.com/user-attachments/assets/29a72f8b-185d-4427-bdfe-4c9d32cde8db)
+
+### Tabel de decizie – `distributeMoney`
+
+|                                      |  R1 |  R2 |  R3 |  R4 |  R5 |
+| :----------------------------------: | :-: | :-: | :-: | :-: | :-: |
+|   **C1**<br/>( *existing account* )  |  0  |  1  |  1  |  1  |  1  |
+|      **C2**<br/>( *amount > 0* )     |  1  |  0  |  1  |  1  |  1  |
+| **C3**<br/>( *total % > 100 – EPS* ) |  0  |  0  |  1  |  0  |  0  |
+| **C4**<br/>( “SAVE” in description ) |  0  |  0  |  1  |  0  |  1  |
+|         **E1** (ACCOUNT\_ERR)        |  1  |  0  |  0  |  0  |  0  |
+|         **E2** (AMOUNT\_ERR)         |  0  |  1  |  0  |  0  |  0  |
+|       **E3** (“Distributing…”)       |  0  |  0  |  1  |  1  |  1  |
+|        **E4** (“No savings…”)        |  0  |  0  |  1  |  1  |  0  |
+|      **E5** (“Remaining money…”)     |  0  |  0  |  0  |  0  |  1  |
+|       **E6** (update spending)       |  0  |  0  |  1  |  1  |  1  |
+|        **E7** (update savings)       |  0  |  0  |  0  |  0  |  1  |
 
 ## Structural Testing
 ### Control Flow Graph
