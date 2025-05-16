@@ -112,24 +112,24 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 Împărțirea în clase de echivalență este o tehnică de testare care împarte spațiul de intrări în clase echivalente: dacă un test dintr-o clasă trece sau eșuează, se presupune că și celelalte din acea clasă se comportă la fel. Astfel, testăm câte un exemplu din fiecare clasă.
 
 ### Variabile / clase definite
-| Variabilă | Clasă | Descriere                              |
-| --------- | ----- | -------------------------------------- |
-| `i`       | `i1`  | Contul **nu există** în sistemul bancar|
-|           | `i2`  | Contul **există** în sistemul bancar   |
-| `a`       | `a1`  | Suma distribuită este **negativă**     |
-|           | `a2`  | Suma distribuită este **pozitivă**     |
-| `p`       | `p1`  | Procentele însumează **sub 100%**      |
-|           | `p2`  | Procentele însumează **exact 100%**    |
-|           | `p3`  | Procentele **peste 100%** – caz exclus |
-| `s`       | `s1`  | Descrierea **conține** cuvântul "SAVE" |
-|           | `s2`  | Descrierea **nu conține** "SAVE"       |
+| Variabilă | Clasă | Descriere                                                             |
+| --------- | ----- | --------------------------------------------------------------------- |
+| `i`       | `i1`  | Contul **nu există** în sistemul bancar                               |
+|           | `i2`  | Contul **există** în sistemul bancar                                  |
+| `a`       | `a1`  | Suma distribuită este **negativă** sau **nulă**                       |  
+|           | `a2`  | Suma distribuită este **pozitivă**                                    |
+| `p`       | `p1`  | Procentele însumează **sub 100%**                                     |
+|           | `p2`  | Procentele însumează **exact 100%**                                   |
+|           | `p3`  | Procentele **peste 100%** – caz exclus (se testează în altă funcție)  |
+| `s`       | `s1`  | Descrierea **conține** cuvântul "SAVE"                                |
+|           | `s2`  | Descrierea **nu conține** "SAVE"                                      |
 
 ### Tabel cazuri de testare (combinări spre clase de echivalență):
 
 | Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                         |
 | ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------- |
 | 1    | i1 – nu există     | -        | -                | -           | Eroare: contul nu există        |
-| 2    | i2 – există        | a1 <= 0  | -                | -           | Eroare: sumă negativă           |
+| 2    | i2 – există        | a1 <= 0  | -                | -           | Eroare: sumă negativă sau nulă  |
 | 3    | i2 – există        | a2 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
 | 4    | i2 – există        | a2 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
 | 5    | i2 – există        | a2 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
