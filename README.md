@@ -7,6 +7,10 @@ Membrii echipei:
 
 Tema aleasă: <b>(T3) Testare unitară în Java</b>
 
+[Prezentare Proiect PowerPoint](https://docs.google.com/presentation/d/1tW18ep01O3WYS0ff2weawega2xD_i_EeYEWyZyg_57Q/edit?slide=id.g3595a70c78a_0_55#slide=id.g3595a70c78a_0_55)
+<br><br>
+[Demo Proiect Youtube](https://www.youtube.com/)
+
 ## Analiză State-of-Art Testare Unitară Java
 ### 1. Introducere
 Testarea unitară reprezintă o practică esențială în dezvoltarea de software, contribuind la asigurarea calității codului și la detectarea rapidă a erorilor în fazele incipiente ale dezvoltării. În contextul limbajului Java, testarea unitară s-a dezvoltat semnificativ, beneficiind de instrumente și framework-uri specializate. Această analiză state-of-art își propune să ofere o perspectivă detaliată asupra conceptelor fundamentale, a tehnologiilor actuale și a resurselor disponibile, precum și să identifice avantajele și limitările principalelor instrumente utilizate în domeniu, cum ar fi Maven, JUnit, JaCoCo și PIT.
