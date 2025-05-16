@@ -460,7 +460,7 @@ A doua generare de functional testing cu [chatGPT](https://chatgpt.com/share/682
 }
 ```
 
-Deși testele generate de ChatGPT sunt, în general, corect structurate din punct de vedere sintactic și acoperă cazuri relevante, problema principală nu ține de formă, ci de lipsa înțelegerii mecanismului intern al distribuției. Modelul nu reușește să interpreteze corect logica aplicației—în special modul în care funcționează salvarea banilor în funcție de procentele alocate conturilor de cheltuieli.
+Deși testele generate de ChatGPT sunt, în general, corect structurate din punct de vedere sintactic și acoperă cazuri relevante, problema principală nu ține de formă, ci de lipsa înțelegerii mecanismului intern al distribuției. Modelul nu reușește să interpreteze corect logica aplicației, în loc să folosească un mecanism precum `log.getLog()` pentru a extrage mesajele din sistem, presupune în mod eronat ce va fi afișat. Din această cauză, aserțiunile bazate pe conținutul output-ului sunt adesea incorecte sau nefuncționale.
 
 Această lipsă de înțelegere profundă a structurii aplicației și a logicii implicite a dus la propagarea unor teste greșite și, mai grav, la concluzii false privind comportamentul corect al sistemului. Practic, ChatGPT a tratat codul ca pe un text generic, fără a-i înțelege semantica și interdependențele dintre componentele API-ului.
 
