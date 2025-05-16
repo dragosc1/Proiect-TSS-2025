@@ -9,14 +9,14 @@ Tema aleasă: <b>(T3) Testare unitară în Java</b>
 
 [Prezentare Proiect](https://docs.google.com/presentation/d/1tW18ep01O3WYS0ff2weawega2xD_i_EeYEWyZyg_57Q/edit?slide=id.g3595a70c78a_0_55#slide=id.g3595a70c78a_0_55)
 <br><br>
-[Demo Proiect Youtube](https://www.youtube.com/)
+[Demo Proiect Youtube](https://www.youtube.com/watch?v=eMCqfgiMxAg)
 
 ## Analiză State-of-Art Testare Unitară Java
 ### 1. Introducere
 Testarea unitară reprezintă o practică esențială în dezvoltarea de software, contribuind la asigurarea calității codului și la detectarea rapidă a erorilor în fazele incipiente ale dezvoltării. În contextul limbajului Java, testarea unitară s-a dezvoltat semnificativ, beneficiind de instrumente și framework-uri specializate. Această analiză state-of-art își propune să ofere o perspectivă detaliată asupra conceptelor fundamentale, a tehnologiilor actuale și a resurselor disponibile, precum și să identifice avantajele și limitările principalelor instrumente utilizate în domeniu, cum ar fi Maven, JUnit, JaCoCo și PIT.
 
 ### 2. Definiții Esențiale și Fundamente Teoretice
-* [Testare unitară: Termenul de „testare unitară” se referă la testarea individuală a unor unități separate dintr-un sistem software. În sistemele orientate pe obiecte, aceste „unități” sunt de regulă clase și metode.](https://users.utcluj.ro/~igiosan/Resources/POO/Lab/12-Testarea_Unitara.pdf)
+* [Testare unitară: "Termenul de „testare unitară” se referă la testarea individuală a unor unități separate dintr-un sistem software. În sistemele orientate pe obiecte, aceste „unități” sunt de regulă clase și metode."](https://users.utcluj.ro/~igiosan/Resources/POO/Lab/12-Testarea_Unitara.pdf)
 
 * [Avantajele testării unitare: Stabilitate, detectare rapidă a erorilor, facilitarea refactorizării.](https://www.researchgate.net/publication/379508034_The_Crucial_Role_of_Unit_Tests_in_Software_Development)
 
@@ -112,29 +112,27 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 Împărțirea în clase de echivalență este o tehnică de testare care împarte spațiul de intrări în clase echivalente: dacă un test dintr-o clasă trece sau eșuează, se presupune că și celelalte din acea clasă se comportă la fel. Astfel, testăm câte un exemplu din fiecare clasă.
 
 ### Variabile / clase definite
-| Variabilă | Clasă | Descriere                              |
-| --------- | ----- | -------------------------------------- |
-| `i`       | `i1`  | Contul **nu există** în sistemul bancar|
-|           | `i2`  | Contul **există** în sistemul bancar   |
-| `a`       | `a1`  | Suma distribuită este **negativă**     |
-|           | `a2`  | Suma distribuită este **zero**         |
-|           | `a3`  | Suma distribuită este **pozitivă**     |
-| `p`       | `p1`  | Procentele însumează **sub 100%**      |
-|           | `p2`  | Procentele însumează **exact 100%**    |
-|           | `p3`  | Procentele **peste 100%** – caz exclus |
-| `s`       | `s1`  | Descrierea **conține** cuvântul "SAVE" |
-|           | `s2`  | Descrierea **nu conține** "SAVE"       |
+| Variabilă | Clasă | Descriere                                                             |
+| --------- | ----- | --------------------------------------------------------------------- |
+| `i`       | `i1`  | Contul **nu există** în sistemul bancar                               |
+|           | `i2`  | Contul **există** în sistemul bancar                                  |
+| `a`       | `a1`  | Suma distribuită este **negativă** sau **nulă**                       |  
+|           | `a2`  | Suma distribuită este **pozitivă**                                    |
+| `p`       | `p1`  | Procentele însumează **sub 100%**                                     |
+|           | `p2`  | Procentele însumează **exact 100%**                                   |
+|           | `p3`  | Procentele **peste 100%** – caz exclus (se testează în altă funcție)  |
+| `s`       | `s1`  | Descrierea **conține** cuvântul "SAVE"                                |
+|           | `s2`  | Descrierea **nu conține** "SAVE"                                      |
 
 ### Tabel cazuri de testare (combinări spre clase de echivalență):
 
 | Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                         |
 | ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------- |
 | 1    | i1 – nu există     | -        | -                | -           | Eroare: contul nu există        |
-| 2    | i2 – există        | a1 < 0 | -                  | -           | Eroare: sumă negativă           |
-| 3    | i2 – există        | a2 = 0   | -                | -           | Eroare: sumă zero               |
-| 4    | i2 – există        | a3 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
-| 5    | i2 – există        | a3 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
-| 6    | i2 – există        | a3 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
+| 2    | i2 – există        | a1 <= 0  | -                | -           | Eroare: sumă negativă sau nulă  |
+| 3    | i2 – există        | a2 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
+| 4    | i2 – există        | a2 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
+| 5    | i2 – există        | a2 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
 
 ### Analiză valori de frontieră
 
