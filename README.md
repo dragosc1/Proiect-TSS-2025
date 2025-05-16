@@ -173,7 +173,7 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 | `p` – suma procentelor          | `p1`        | `0%` – fără conturi de cheltuieli                       |
 |                                 | `p2`        | `1…99%` – cheltuieli parțiale                           |
 |                                 | `p3`        | `100%` – toți banii sunt alocați                        |
-|                                 | `p4`        | `>100%` – peste capacitatea de distribuție (caz exclus) |
+|                                 | `p4`        | `>100%` – peste capacitatea de distribuție              |
 | `s` – descriere                 | `s1`        | Descrierea **conține** cuvântul `"SAVE"`                |
 |                                 | `s2`        | Descrierea **nu conține** `"SAVE"`                      |
 
