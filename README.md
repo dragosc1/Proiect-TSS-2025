@@ -204,21 +204,19 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 #### Cause Effect Graph
 ![photo](https://github.com/user-attachments/assets/29a72f8b-185d-4427-bdfe-4c9d32cde8db)
 
-### Tabel de decizie – `distributeMoney`
-
-|                                      |  R1 |  R2 |  R3 |  R4 |  R5 |
-| :----------------------------------: | :-: | :-: | :-: | :-: | :-: |
-|   **C1**<br/>( *existing account* )  |  0  |  1  |  1  |  1  |  1  |
-|      **C2**<br/>( *amount > 0* )     |  1  |  0  |  1  |  1  |  1  |
-| **C3**<br/>( *total % > 100 – EPS* ) |  0  |  0  |  1  |  0  |  0  |
-| **C4**<br/>( “SAVE” in description ) |  0  |  0  |  1  |  0  |  1  |
-|         **E1** (ACCOUNT\_ERR)        |  1  |  0  |  0  |  0  |  0  |
-|         **E2** (AMOUNT\_ERR)         |  0  |  1  |  0  |  0  |  0  |
-|       **E3** (“Distributing…”)       |  0  |  0  |  1  |  1  |  1  |
-|        **E4** (“No savings…”)        |  0  |  0  |  1  |  1  |  0  |
-|      **E5** (“Remaining money…”)     |  0  |  0  |  0  |  0  |  1  |
-|       **E6** (update spending)       |  0  |  0  |  1  |  1  |  1  |
-|        **E7** (update savings)       |  0  |  0  |  0  |  0  |  1  |
+|                                         | **R1** | **R2** | **R3** | **R4** | **R5** |
+| :-------------------------------------- | :----: | :----: | :----: | :----: | :----: |
+| **C1**<br/>(*Contul există în sistem*)  |    0   |    1   |    1   |    1   |    1   |
+| **C2**<br/>(*Suma este pozitivă*)       |    1   |    0   |    1   |    1   |    1   |
+| **C3**<br/>(*total % > 100 − EPS*)      |    0   |    0   |    1   |    0   |    0   |
+| **C4**<br/>(„SAVE” în descriere)        |    0   |    0   |    1   |    0   |    1   |
+| **E1** (ACCOUNT\_ERR)                   |    1   |    0   |    0   |    0   |    0   |
+| **E2** (AMOUNT\_ERR)                    |    0   |    1   |    0   |    0   |    0   |
+| **E3** („Se distribuie banii…”)         |    0   |    0   |    1   |    1   |    1   |
+| **E4** („Fără economii…”)               |    0   |    0   |    1   |    1   |    0   |
+| **E5** („Suma rămasă…”)                 |    0   |    0   |    0   |    0   |    1   |
+| **E6** (Actualizare conturi cheltuieli) |    0   |    0   |    1   |    1   |    1   |
+| **E7** (Actualizare economii)           |    0   |    0   |    0   |    0   |    1   |
 
 ## Structural Testing
 ### Control Flow Graph
