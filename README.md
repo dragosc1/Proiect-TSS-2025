@@ -129,7 +129,7 @@ Funcția distributeMoney distribuie o sumă de bani (amount) către diferite cat
 | Test | i – cont existent? | a – sumă | p – % cheltuieli | s – "SAVE"? | Răspuns                         |
 | ---- | ------------------ | -------- | ---------------- | ----------- | ------------------------------- |
 | 1    | i1 – nu există     | -        | -                | -           | Eroare: contul nu există        |
-| 2    | i2 – există        | a1 < 0   | -                | -           | Eroare: sumă negativă           |
+| 2    | i2 – există        | a1 <= 0  | -                | -           | Eroare: sumă negativă           |
 | 3    | i2 – există        | a2 > 0   | p1 < 100%        | s1 – da     | Se adaugă la economii           |
 | 4    | i2 – există        | a2 > 0   | p1 < 100%        | s2 – nu     | Nicio economie                  |
 | 5    | i2 – există        | a2 > 0   | p2 100%          | -           | Nicio economie (totul cheltuit) |
