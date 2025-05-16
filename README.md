@@ -7,7 +7,7 @@ Membrii echipei:
 
 Tema aleasă: <b>(T3) Testare unitară în Java</b>
 
-[Prezentare Proiect PowerPoint](https://docs.google.com/presentation/d/1tW18ep01O3WYS0ff2weawega2xD_i_EeYEWyZyg_57Q/edit?slide=id.g3595a70c78a_0_55#slide=id.g3595a70c78a_0_55)
+[Prezentare Proiect](https://docs.google.com/presentation/d/1tW18ep01O3WYS0ff2weawega2xD_i_EeYEWyZyg_57Q/edit?slide=id.g3595a70c78a_0_55#slide=id.g3595a70c78a_0_55)
 <br><br>
 [Demo Proiect Youtube](https://www.youtube.com/)
 
