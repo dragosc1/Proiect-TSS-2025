@@ -218,7 +218,7 @@ public class BankAccountDistributorTest {
         // i1 - Account does not exist
         cases.add(new CPCase(404, false, 100,   new double[]{}, false, Outcome.ACCOUNT_ERR, 0, "Cat1"));
         // i2 + a1 - Amount is negative
-        cases.add(new CPCase(nextId(ID),  true, -75,       new double[]{}, false, Outcome.AMOUNT_ERR, 0, "Cat2"));
+        cases.add(new CPCase(nextId(ID),  true, -50,       new double[]{}, false, Outcome.AMOUNT_ERR, 0, "Cat2"));
         // i2 + a2 - Amount is 0
         cases.add(new CPCase(nextId(ID), true, 0,         new double[]{}, false, Outcome.AMOUNT_ERR, 0, "Cat3"));
 
@@ -229,16 +229,16 @@ public class BankAccountDistributorTest {
         cases.add(new CPCase(nextId(ID), true, 1000000,   new double[]{}, true,  Outcome.ALL_SAVED,   1_000_000, "Cat7 SAVE")); // (a5,p1,s1)
 
         // PARTIAL_SAVED (p<100%)
-        cases.add(new CPCase(nextId(ID), true, 0.001,      new double[]{80}, false, Outcome.NO_SAVED,       0,      "Cat8"));       // (a3,p2,s2)
-        cases.add(new CPCase(nextId(ID), true, 0.001,      new double[]{80}, true,  Outcome.PARTIAL_SAVED,  0.002,  "Cat9 SAVE"));  // (a3,p2,s1)
+        cases.add(new CPCase(nextId(ID), true, 0.01,      new double[]{80}, false, Outcome.NO_SAVED,       0,      "Cat8"));       // (a3,p2,s2)
+        cases.add(new CPCase(nextId(ID), true, 0.01,      new double[]{80}, true,  Outcome.PARTIAL_SAVED,  0.002,  "Cat9 SAVE"));  // (a3,p2,s1)
         cases.add(new CPCase(nextId(ID), true, 100,       new double[]{80}, false, Outcome.NO_SAVED,       0,      "Cat10"));      // (a4,p2,s2)
         cases.add(new CPCase(nextId(ID), true, 100,       new double[]{80}, true,  Outcome.PARTIAL_SAVED,  20,     "Cat11 SAVE")); // (a4,p2,s1)
         cases.add(new CPCase(nextId(ID), true, 1000000,   new double[]{30,30}, false, Outcome.NO_SAVED,    0,      "Cat12"));      // (a5,p2,s2)
         cases.add(new CPCase(nextId(ID), true, 1000000,   new double[]{30,30}, true,  Outcome.PARTIAL_SAVED,400_000,"Cat13 SAVE"));// (a5,p2,s1)
 
         // NO_SAVED (p=100%)
-        cases.add(new CPCase(nextId(ID), true, 0.001,      new double[]{100},      false, Outcome.NO_SAVED, 0, "Cat14"));
-        cases.add(new CPCase(nextId(ID), true, 0.001,      new double[]{100},      true,  Outcome.NO_SAVED, 0, "Cat15 SAVE"));
+        cases.add(new CPCase(nextId(ID), true, 0.01,      new double[]{100},      false, Outcome.NO_SAVED, 0, "Cat14"));
+        cases.add(new CPCase(nextId(ID), true, 0.01,      new double[]{100},      true,  Outcome.NO_SAVED, 0, "Cat15 SAVE"));
         cases.add(new CPCase(nextId(ID), true, 200,       new double[]{60,40},    false, Outcome.NO_SAVED, 0, "Cat16"));
         cases.add(new CPCase(nextId(ID), true, 200,       new double[]{60,40},    true,  Outcome.NO_SAVED, 0, "Cat17 SAVE"));
 
