@@ -222,7 +222,11 @@ Category Partitioning este o tehnică de testare care presupune împărțirea in
 | **E7** (Actualizare economii)           |    0   |    0   |    0   |    0   |    1   |
 
 ## Structural Testing
+Structural testing este o metodă de testare software care se bazează pe analiza structurii interne a codului. Testele sunt concepute pentru a verifica toate căile posibile de execuție, condițiile și buclele, asigurând o acoperire cât mai completă a codului. Se folosesc tehnici precum analiza deciziilor, acoperirea ramurilor și a condițiilor.
+
 ### Control Flow Graph
+Control flow graph (CFG) este o reprezentare grafică a tuturor căilor posibile de execuție ale unui program. Nodurile reprezintă blocuri de cod (instructiuni secvențiale), iar muchiile arată fluxul de control dintre acestea. CFG-ul este esențial pentru analiza statică, optimizări de compilator și testarea structurală.
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7e1fdc08-bb1b-49a1-b85b-62d099b3e328" alt="diagrama" />
 </p>
