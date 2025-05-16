@@ -373,10 +373,10 @@ Ne vom folosi de [ChatGPT](https://chatgpt.com/share/682736b2-be94-8010-b5bd-b3c
 
 Testul este, în procent mare, corect structurat și acoperă cazuri relevante din perspectiva partajării în clase de echivalență (equivalence partitioning). Sunt verificate:
 * cazuri de input invalid
-* scenarii valide cu distribuție către contul de economii în funcție de prezența cuvântului  cheie `"SAVE"`
+* scenarii valide cu distribuție către contul de economii în funcție de prezența cuvântului cheie `"SAVE"`
 * caz pozitiv fără activarea economisirii.
 
-Totuși, ultima secțiune a testului conține o aserțiune incorectă.
+Totuși, ultima secțiune a testului conține o aserțiune incorectă, datorată faptului că modeul generalizeaza testele pe un "`setUp`" complet diferit.
 ```java
  bring total percentage to exactly 100% (ChatGPT is wrong)
  distributor.addSpendingAccount(1, "Extra", 0.0, 10.0);
